@@ -14,6 +14,7 @@ Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
+URL:		http://lilo.go.dyndns.org/
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
 # Source0-md5:	d5b561190cbe0968d50e09e0031edb79
 Source1:	%{name}-pldblack.bmp
