@@ -9,7 +9,7 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
 Version:	22.2
-Release:	2
+Release:	3
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -94,7 +94,7 @@ install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-gzip -9nf README CHANGES INCOMPAT
+gzip -9nf README* CHANGES INCOMPAT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
