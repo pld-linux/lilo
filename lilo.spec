@@ -9,7 +9,7 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
 Version:	22.3
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/System
