@@ -12,6 +12,7 @@ Group(pl):	Narzêdzia/System
 Source0:	ftp://sd.dynhost.com/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
+Patch0:		lilo-no-boot.patch
 BuildRequires:	bin86 >= 0.15
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,6 +43,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__make} OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
