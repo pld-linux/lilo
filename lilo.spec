@@ -55,6 +55,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__make} OPTIMIZE="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}" LDFLAGS="%{!?debug:-s}"
