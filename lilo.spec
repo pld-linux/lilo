@@ -31,7 +31,7 @@ Patch4:		%{name}-cc.patch
 Patch5:		%{name}-doc-fallback.patch
 Patch6:		%{name}-pagesize.patch
 Patch7:		http://www.saout.de/misc/%{name}-22.5.9-devmapper.patch
-URL:            http://lilo.go.dyndns.org/
+URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
