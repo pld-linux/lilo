@@ -51,11 +51,11 @@ make install ROOT=$RPM_BUILD_ROOT
 
 touch $RPM_BUILD_ROOT/etc/lilo.conf
 
-install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/man8
-install %{SOURCE2} $RPM_BUILD_ROOT/usr/man/man5
+install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man8
+install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
 
 gzip -9nf README CHANGES INCOMPAT
-gzip -9nf $RPM_BUILD_ROOT/usr/man/man[58]/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man[58]/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640,root,root) /boot/*.b
 %attr(755,root,root) /sbin/lilo
-/usr/man/man[58]/*
+%{_mandir}/man[58]/*
 
 %changelog
 * Sun Mar 14 1999 Micha³ Kuratczyk <kura@pld.org.pl>
