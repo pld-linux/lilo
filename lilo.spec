@@ -12,7 +12,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.6
-Release:	2
+Release:	2.1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -31,7 +31,8 @@ Patch2:		%{name}-ioctls.patch
 Patch3:		%{name}-cc.patch
 Patch4:		%{name}-doc-fallback.patch
 Patch5:		%{name}-pagesize.patch
-Patch6:		http://www.saout.de/misc/%{name}-22.5.9-devmapper.patch
+#Patch6:		http://www.saout.de/misc/%{name}-22.6-devmapper.patch
+Patch6:		%{name}-dmraid.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 #BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
@@ -94,7 +95,7 @@ OS/2.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-#%patch6 -p1
+%patch6 -p1
 
 %build
 %{__make} \
