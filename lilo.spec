@@ -12,7 +12,7 @@ Group(pl):	Narzêdzia/System
 Source0:	ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-21.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
-Exclusivearch:	i386 i486 i586 i686
+Exclusivearch:	%{ix86}
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
