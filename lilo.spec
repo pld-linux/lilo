@@ -9,8 +9,8 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.3.3
-Release:	3
+Version:	22.3.4
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
