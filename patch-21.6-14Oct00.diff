@@ -1,0 +1,35 @@
+--- lilo.c0	Wed Oct  4 16:29:27 2000
++++ lilo.c	Sat Oct 14 08:50:00 2000
+@@ -314,8 +314,11 @@
+ 		break;
+ 	    case 'I':
+ 		identify = param;
+-		if (argc--) {
++		if (argc) {
+ 		    ident_opt = *argv++;
++		    argc--;
++		} else {
++		    ident_opt = "i";
+ 		}
+ 		break;
+ 	    case 'l':
+@@ -340,9 +343,7 @@
+ 		query = 1;
+ 		break;
+ 	    case 'r':
+-		if (!argc) usage(name);
+ 		new_root = param;
+-		argc--;
+ 		break;
+ 	    case 'R':
+ 	        if (*(param = (*argv)+2)) argc++;
+@@ -365,9 +366,7 @@
+ #endif
+ 		break;
+ 	    case 's':
+-		if (!argc) usage(name);
+ 		cfg_set(cf_options,"backup",param,NULL);
+-		argc--;
+ 		break;
+ 	    case 'S':
+ 		cfg_set(cf_options,"force-backup",param,NULL);

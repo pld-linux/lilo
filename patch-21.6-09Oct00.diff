@@ -1,0 +1,16 @@
+--- partition.c0	Sat Sep 30 15:47:35 2000
++++ partition.c	Mon Oct  9 15:52:52 2000
+@@ -246,11 +246,11 @@
+     other = cfg_get_strg(cf_top, "other");
+     if (verbose > 4) printf("do_cr_auto: other=%s\n", other);
+     i = other[strlen(other)-1] - '0';
+-    if (i>PART_MAX) return;
++    if (i>PART_MAX || i<1) return;
+     if (has_partition) cfg_error("AUTOMATIC must be before PARTITION");
+     table = cfg_get_strg(cf_other,"table");
+     if (!table) table = boot_table(other);	/* get possible default */
+-    if (strlen(table)<4) return;
++    if (!table || strlen(table)<4) return;
+     if (!table) cfg_error("TABLE must be set to use AUTOMATIC");
+     /*    
+      */
