@@ -7,6 +7,7 @@ Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(ru):	Загрузчик для Linux и других операционных систем
 Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
+Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
 Version:	22.3.1
 Release:	1
