@@ -127,9 +127,10 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
 /etc/sysconfig/rc-boot/%{name}_functions.sh
-%attr(640,root,root) /boot/lilo-pldblack.bmp
-%attr(640,root,root) /boot/lilo-pldblue.bmp
-%attr(640,root,root) /boot/lilo-pldblue8.bmp
+/boot/diag1.img
+/boot/lilo-pldblack.bmp
+/boot/lilo-pldblue.bmp
+/boot/lilo-pldblue8.bmp
 %attr(755,root,root) /sbin/lilo
 %attr(755,root,root) /sbin/mkrescue
 %{_mandir}/man[58]/*
