@@ -82,13 +82,17 @@ OS/2.
 %patch1 -p1
 
 %build
-%{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+%{__make} \
+	CC="%{__cc}" \
+	OPT="%{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
-%{__make} install ROOT=$RPM_BUILD_ROOT
+%{__make} install \
+	 ROOT=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
