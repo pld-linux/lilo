@@ -11,7 +11,7 @@ License:	MIT
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
-Source0:	ftp://brun.dyndns.org/pub/linux/lilo/beta/%{name}-%{version}-beta.tar.gz
+Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Patch0:		%{name}-makefile.patch
@@ -45,7 +45,7 @@ açýlýþta yüklenmesi için kullanýlýr. Bu sistemler arasýnda BSD
 türevleri, DOS ve OS/2 sayýlabilir.
 
 %prep
-%setup -q -n %{name}-%{version}-beta
+%setup -q
 %patch0 -p1
 
 %build
