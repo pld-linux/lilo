@@ -10,7 +10,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.5.8
-Release:	4
+Release:	5
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -25,6 +25,8 @@ Source5:	%{name}-pldblue.bmp
 Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
+Patch2:		%{name}-ioctls.patch
+Patch3:		%{name}-gkh.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -82,6 +84,8 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %{__make} \
