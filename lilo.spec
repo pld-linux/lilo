@@ -4,7 +4,9 @@ Summary(es):	Cargador de arranque para Linux y otros sistemas operativos
 Summary(fr):	Chargeur de boot pour Linux et autres systХmes d'exploitation
 Summary(pl):	Boot Loader dla Linuksa i innych systemСw operacyjnych
 Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
+Summary(ru):	Загрузчик для Linux и других операционных систем
 Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
+Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
 Version:	22.2
 Release:	2
@@ -54,11 +56,22 @@ do disco rМgido, dando a ele o controle do sistema. Ele pode tambИm
 ser usado para "bootar" vАrios outros sistemas operacionais, incluindo
 variantes de BSD, DOS e OS/2.
 
+%description -l ru
+Lilo отвечает за загрузку ядра Linux с дискеты или жесткого диска и
+передачу ему управления системой. Также может быть использовано для
+загрузки многих других систем, включая диалекты BSD, DOS и OS/2.
+
 %description -l tr
 Lilo, Linux ГekirdeПinin disket veya sabit disk sЭrЭcЭden
 yЭklenmesinden sorumludur. AyrЩca pek Гok diПer iЧletim sisteminin de
 aГЩlЩЧta yЭklenmesi iГin kullanЩlЩr. Bu sistemler arasЩnda BSD
 tЭrevleri, DOS ve OS/2 sayЩlabilir.
+
+%description -l uk
+Lilo в╕дпов╕да╓ за завантаження ядра Linux з дискети чи жорсткого
+диску та передач╕ йому керування системою. Дозволя╓ також
+завантажувати ╕нш╕ операц╕йн╕ системи, включаючи д╕алекти BSD, DOS та
+OS/2.
 
 %prep
 %setup -q
