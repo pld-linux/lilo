@@ -7,7 +7,7 @@ Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	22.1
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -17,6 +17,7 @@ Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
+Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
@@ -78,6 +79,7 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
+bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 gzip -9nf README CHANGES INCOMPAT
 
@@ -103,3 +105,12 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %attr(640,root,root) %config(noreplace) %verify(not link) /boot/boot.b
 %attr(755,root,root) /sbin/lilo
 %{_mandir}/man[58]/*
+%lang(cs) %{_mandir}/cs/man[58]/*
+%lang(de) %{_mandir}/de/man[58]/*
+%lang(es) %{_mandir}/fr/man[58]/*
+%lang(hu) %{_mandir}/hu/man[58]/*
+%lang(it) %{_mandir}/it/man[58]/*
+%lang(ja) %{_mandir}/ja/man[58]/*
+%lang(ko) %{_mandir}/ko/man[58]/*
+%lang(pl) %{_mandir}/pl/man[58]/*
+%lang(ru) %{_mandir}/ru/man[58]/*
