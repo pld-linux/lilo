@@ -63,8 +63,9 @@ rc_boot_image () {
 		# for this in /etc/lilo.conf
 		echo "# Linux image"
 		echo "image=${KERNEL}"
-		echo "	label=${NAME}"
 		echo "	root=${ROOT}"
+		echo "	label=${NAME}"
+		[ "${ALIAS}" != "" ]	&& echo "	alias=${ALIAS}"
 		[ "${VGA}" != "" ] 	&& echo "	vga=${VGA}"
 		[ "${APPEND}" != "" ] 	&& echo "	append=\"${APPEND}\""
 		[ "$INITRD" != "" ] 	&& echo "	initrd=${INITRD}"
@@ -76,6 +77,7 @@ rc_boot_image () {
 		echo "# $TYPE image"
 		echo "other=${ROOT}"
 		echo "	label=${NAME}"
+		[ "${ALIAS}" != "" ]	&& echo "	alias=${ALIAS}"
 		if is_yes "$LOCK" && test "$PASSWORD" ; then
 			echo "	password = $PASSWORD"
 		fi
