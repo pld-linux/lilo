@@ -9,20 +9,18 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
-Version:	22.5.2
-Release:	2
+Version:	22.5.4
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-#Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
-#Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/obsolete/%{name}-%{version}.tar.gz
-# Source0-md5: 53fbadf96e8d6e6c8f7792786d036a1f
+# Source0-md5:	36dbfbed7fbf4e78750ae8554518966b
+Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
+# Source4-md5:	5d93c6c01175d2e701ca77de16368a62
 Source4:	%{name}-non-english-man-pages.tar.bz2
-# Source4-md5: 5d93c6c01175d2e701ca77de16368a62
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 BuildRequires:	bin86 >= 0.15
