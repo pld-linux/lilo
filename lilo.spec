@@ -9,9 +9,9 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.5.3
-Release:	1
-Epoch:		1
+Version:	22.5.2
+Release:	2
+Epoch:		2
 License:	BSD
 Group:		Applications/System
 #Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
