@@ -11,13 +11,6 @@ Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(es):	Aplicaciones/Sistema
-Group(fr):	Aplicaciones/Système
-Group(pl):	Aplikacje/System
-Group(pt):	Aplicações/Sistema
-Group(pt_BR):	Aplicações/Sistema
-Group(ru):	ğÒÉÌÏÖÅÎÉÑ/óÉÓÔÅÍÁ
 Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
