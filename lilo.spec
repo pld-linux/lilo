@@ -6,8 +6,8 @@ Summary(pl):	Boot Loader dla Linuksa i innych systemów operacyjnych
 Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
-Version:	22.1
-Release:	4
+Version:	22.2
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -19,7 +19,7 @@ Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
-Patch1:		%{name}-cpp-macros.patch
+#Patch1:		%{name}-cpp-macros.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -64,10 +64,11 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 
 %build
-%{__make} OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+%{__make}
+# OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
