@@ -22,6 +22,7 @@ Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
+Patch2:		http://home.san.rr.com/johninsd/pub/linux/lilo/updates/lilo-22.5.protectDX.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -79,6 +80,7 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
