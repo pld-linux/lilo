@@ -1,12 +1,12 @@
-diff -urN lilo-22.0/Makefile lilo-22.0-fixed/Makefile
---- lilo-22.0/Makefile	Mon Jun  4 00:48:54 2001
-+++ lilo-22.0-fixed/Makefile	Sun Jun 24 19:24:34 2001
-@@ -56,7 +56,7 @@
+diff -ruN lilo-22.3/Makefile lilo-22.3.my/Makefile
+--- lilo-22.3/Makefile	Fri May  3 20:16:04 2002
++++ lilo-22.3.my/Makefile	Mon May 20 13:45:53 2002
+@@ -69,7 +69,7 @@
  CFG_DIR=/etc
  BOOT_DIR=/boot
  USRSBIN_DIR=/usr/sbin
--MAN_DIR=/usr/man
+-MAN_DIR=`manpath | sed "s/:.*//"`
 +MAN_DIR=/usr/share/man
+ BUILTIN=`./lilo -X | grep CFLAGS | grep LCF_BUILTIN | wc -l | sed "s/ //g"`
  
  PCONFIG=`( if [ -r $$ROOT/etc/lilo.defines ]; then \
-   cat $$ROOT/etc/lilo.defines; else echo $(CONFIG); fi ) | \
