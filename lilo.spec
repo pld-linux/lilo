@@ -41,13 +41,13 @@ için kullanýlýr. Bu sistemler arasýnda BSD türevleri, DOS ve OS/2 sayýlabilir.
 %setup -q
 
 %build
-make OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
+%{__make} OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc,%{_mandir}/man{5,8}}
 
-make install ROOT=$RPM_BUILD_ROOT
+%{__make} install ROOT=$RPM_BUILD_ROOT
 
 touch $RPM_BUILD_ROOT/etc/lilo.conf
 
