@@ -1,18 +1,20 @@
-Summary:     Boot loader for Linux and other operating systems
-Summary(de): Boot-Lader für Linux und andere Betriebssysteme
-Summary(fr): Chargeur de boot pour Linux et autres systèmes d'exploitation
-Summary(pl): Boot Loader dla Linuxa i innych systemów operacyjnych.
-Summary(tr): Linux ve diger iþletim sistemleri için sistem yükleyici
-Name:        lilo
-Version:     0.21
-Release:     1
-Copyright:   MIT
-Group:       Utilities/System 
-Source0:     ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-21.tar.gz
-Source1:     lilo.8
-Source2:     lilo.conf.5
-Exclusivearch: i386
-Buildroot:   /tmp/%{name}-%{version}-root
+Summary:	Boot loader for Linux and other operating systems
+Summary(de):	Boot-Lader für Linux und andere Betriebssysteme
+Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
+Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych.
+Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
+Name:		lilo
+Version:	0.21
+Release:	2
+Copyright:	MIT
+Group:		Utilities/System 
+Group(pl):	Narzêdzia/System 
+URL:		ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/
+Source0:	%{name}-21.tar.gz
+Source1:	lilo.8
+Source2:	lilo.conf.5
+Exclusivearch:	i386
+Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
 Lilo is repsonsible for loading your linux kernel from either a floppy
@@ -40,7 +42,7 @@ için kullanýlýr. Bu sistemler arasýnda BSD türevleri, DOS ve OS/2 sayýlabilir.
 %setup -q -n %{name}
 
 %build
-make
+make OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -53,6 +55,9 @@ touch $RPM_BUILD_ROOT/etc/lilo.conf
 install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/man8
 install %{SOURCE2} $RPM_BUILD_ROOT/usr/man/man5
 
+bzip2 -9 README CHANGES INCOMPAT QuickInst
+gzip -9fn $RPM_BUILD_ROOT/usr/man/man[58]/*
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -60,15 +65,23 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/lilo > /dev/null
 
 %files
-%defattr(644, root, root,755)
-%doc README CHANGES INCOMPAT QuickInst
-%attr(600, root, root) %config(noreplace) %verify(not size mtime md5) /etc/*
-%attr(640, root, root) /boot/*.b
-%attr(750, root, root) /sbin/lilo
-%attr(644, root,  man) /usr/man/man[58]/*
+%defattr(644,root,root,755)
+%doc {README,CHANGES,INCOMPAT,QuickInst}.bz2
+
+%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/*
+%attr(640,root,root) /boot/*.b
+%attr(755,root,root) /sbin/lilo
+%attr(644,root, man) /usr/man/man[58]/*
 
 %changelog
-* Fri Mar  5 1999 Jacek Smyda <smyda@posexperts.com.pl>
+* Sat Mar 06 1999 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
+- added Group(pl),
+- commpressed man pages && documentation (QuickInst script too ..),
+- fixed permissions,
+- build with optimization,
+- cleaning up spec.
+
+* Fri Mar 5 1999 Jacek Smyda <smyda@posexperts.com.pl>
 - change permission for lilo.conf
 
 * Sat Dec  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
@@ -85,14 +98,6 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Jun 15 1998 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
 - added pl translation,
 - changed permission of lilo to 711,
-- moved %changelog at the end of spec.
-
-* Thu May 07 1998 Prospector System <bugs@redhat.com>
-- translations modified for de, fr, tr
-
-* Sun Oct 19 1997 Erik Troan <ewt@redhat.com>
-- updated to release 0.20
-- uses a build root
-
-* Tue Jul 08 1997 Erik Troan <ewt@redhat.com>
-- built against glibc
+- moved %changelog at the end of spec,
+- build against GNU libc-2.1,
+- start at RH spec.
