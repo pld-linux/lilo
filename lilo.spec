@@ -1,11 +1,11 @@
 Summary:	Boot loader for Linux and other operating systems
 Summary(de):	Boot-Lader für Linux und andere Betriebssysteme
 Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
-Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych.
+Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	0.21
-Release:	3
+Release:	4
 Copyright:	MIT
 Group:		Utilities/System 
 Group(pl):	Narzêdzia/System 
@@ -54,8 +54,8 @@ touch $RPM_BUILD_ROOT/etc/lilo.conf
 install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/man8
 install %{SOURCE2} $RPM_BUILD_ROOT/usr/man/man5
 
-bzip2 -9 README CHANGES INCOMPAT
-gzip -9fn $RPM_BUILD_ROOT/usr/man/man[58]/*
+gzip -9nf README CHANGES INCOMPAT
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man[58]/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,INCOMPAT}.bz2 QuickInst
+%doc {README,CHANGES,INCOMPAT}.gz2 QuickInst
 
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640,root,root) /boot/*.b
@@ -73,6 +73,10 @@ rm -rf $RPM_BUILD_ROOT
 /usr/man/man[58]/*
 
 %changelog
+* Sun Mar 14 1999 Micha³ Kuratczyk <kura@pld.org.pl>
+  [0.21-4]
+- gzipping instead bzipping
+
 * Wed Mar 12 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [0.21-3]
 - do not compress QuickInst,
