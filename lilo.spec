@@ -6,18 +6,17 @@ Summary(pl):	Boot Loader dla Linuksa i innych systemów operacyjnych
 Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
-Version:	22.0.1
+Version:	22.0.2
 Release:	1
 Epoch:		1
 License:	MIT
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
-Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-22.0.tar.gz
+Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Patch0:		%{name}-makefile.patch
-Patch1:		ftp://brun.dyndns.org/pub/linux/lilo/patch-%{name}-%{version}.dif.gz
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -60,9 +59,8 @@ açýlýþta yüklenmesi için kullanýlýr. Bu sistemler arasýnda BSD
 türevleri, DOS ve OS/2 sayýlabilir.
 
 %prep
-%setup -q -n %{name}-22.0
+%setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__make} OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
