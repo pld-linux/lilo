@@ -21,6 +21,7 @@ Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-evms.patch
 BuildRequires:	bin86 >= 0.15
+BuildRequires:	nasm
 Provides:	bootloader
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
