@@ -29,6 +29,7 @@ Patch2:		%{name}-ioctls.patch
 Patch3:		%{name}-gkh.patch
 Patch4:		%{name}-cc.patch
 Patch5:		%{name}-doc-fallback.patch
+Patch6:		%{name}-pagesize.patch
 URL:            http://lilo.go.dyndns.org/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
@@ -91,6 +92,7 @@ OS/2.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %{__make} \
