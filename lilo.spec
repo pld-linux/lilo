@@ -5,10 +5,11 @@ Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	21.5.1
-Release:	1
+Release:	2
 License:	MIT
-Group:		Utilities/System
-Group(pl):	Narzêdzia/System
+Group:		Applications/System
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
 Source0:	ftp://sd.dynhost.com/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}.8
 Source2:	%{name}.conf.5
@@ -47,7 +48,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %patch0 -p1
 
 %build
-%{__make} OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
+%{__make} OPTIMIZE="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}" LDFLAGS="%{!?debug:-s}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -60,16 +61,14 @@ touch $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man[58]/* \
-	README CHANGES INCOMPAT
+gzip -9nf README CHANGES INCOMPAT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,INCOMPAT}.gz QuickInst
-
+%doc *.gz QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
 %attr(640,root,root) /boot/*.b
 %attr(755,root,root) /sbin/lilo
