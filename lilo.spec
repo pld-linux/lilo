@@ -70,7 +70,7 @@ gzip -9nf README CHANGES INCOMPAT
 #if [ -s %{_sysconfdir}/lilo.conf]; then
 #	/sbin/lilo
 #fi
-echo "Remember to type 'lilo' after upgrade"
+echo "Remember to type \"lilo\" after upgrade"
 
 
 %clean
