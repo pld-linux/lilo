@@ -67,8 +67,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 #%patch1 -p1
 
 %build
-%{__make}
-# OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+%{__make} OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
