@@ -5,14 +5,15 @@ Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	0.21
-Release:	4
+Release:	5
 Copyright:	MIT
 Group:		Utilities/System 
 Group(pl):	Narzêdzia/System 
-Source0:	ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-21.tar.gz
+URL:		ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo
+Source0:	%{name}-21.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
-Exclusivearch:	i386
+Exclusivearch:	i386 i486 i586 i686
 Buildroot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -45,7 +46,7 @@ make OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{etc,usr/man/man{5,8}}
+install -d $RPM_BUILD_ROOT/{etc,usr/share/man/man{5,8}}
 
 make install ROOT=$RPM_BUILD_ROOT
 
@@ -65,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,INCOMPAT}.gz2 QuickInst
+%doc {README,CHANGES,INCOMPAT}.gz QuickInst
 
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640,root,root) /boot/*.b
