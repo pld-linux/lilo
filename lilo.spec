@@ -4,8 +4,8 @@ Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
 Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
-Version:	21.6.1
-Release:	2
+Version:	21.7
+Release:	1
 Epoch:		1
 License:	MIT
 Group:		Applications/System
@@ -16,8 +16,7 @@ Source1:	%{name}.8
 Source2:	%{name}.conf.5
 Patch0:		%{name}-no-boot.patch
 Patch1:		%{name}-sa5300.patch
-Patch2:		%{name}-i2o.patch
-Patch3:		%{name}-opt.patch
+Patch2:		%{name}-opt.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -52,7 +51,6 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__make} OPTIMIZE="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}" LDFLAGS="%{!?debug:-s}"
