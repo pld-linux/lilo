@@ -1,3 +1,5 @@
+# TODO:
+# - pl-manual is really not-up-to-date
 Summary:	Boot loader for Linux and other operating systems
 Summary(de):	Boot-Lader für Linux und andere Betriebssysteme
 Summary(es):	Cargador de arranque para Linux y otros sistemas operativos
@@ -119,6 +121,8 @@ install %{SOURCE1} $RPM_BUILD_ROOT/boot
 install %{SOURCE5} $RPM_BUILD_ROOT/boot
 install %{SOURCE6} $RPM_BUILD_ROOT/boot
 
+touch $RPM_BUILD_ROOT/etc/disktab
+
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 %clean
@@ -131,6 +135,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
+%attr(600,root,root) %config(noreplace,missingok) %verify(not size mtime md5) /etc/disktab
 /etc/sysconfig/rc-boot/%{name}_functions.sh
 /boot/diag1.img
 /boot/lilo-pldblack.bmp
