@@ -11,13 +11,13 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
-Version:	22.5.9
-Release:	3
+Version:	22.6
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
-# Source0-md5:	d5b561190cbe0968d50e09e0031edb79
+# Source0-md5:	ae9665536347d9cc92e0ebd473a9ac6b
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -28,15 +28,13 @@ Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 Patch2:		%{name}-ioctls.patch
-Patch3:		%{name}-gkh.patch
-Patch4:		%{name}-cc.patch
-Patch5:		%{name}-doc-fallback.patch
-Patch6:		%{name}-pagesize.patch
-Patch7:		http://www.saout.de/misc/%{name}-22.5.9-devmapper.patch
+Patch3:		%{name}-cc.patch
+Patch4:		%{name}-doc-fallback.patch
+Patch5:		%{name}-pagesize.patch
+Patch6:		http://www.saout.de/misc/%{name}-22.5.9-devmapper.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
-BuildRequires:	device-mapper-devel
+#BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
-BuildRequires:	nasm
 Provides:	bootloader
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -96,8 +94,7 @@ OS/2.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-#%patch7 -p1
+#%patch6 -p1
 
 %build
 %{__make} \
