@@ -14,6 +14,7 @@ Source1:	lilo.8
 Source2:	lilo.conf.5
 Patch0:		lilo-no-boot.patch
 BuildRequires:	bin86 >= 0.15
+Provides:	bootloader
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
