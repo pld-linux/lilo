@@ -6,7 +6,7 @@ Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	21.7.2
-Release:	1
+Release:	2
 Epoch:		1
 License:	MIT
 Group:		Applications/System
@@ -78,6 +78,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc *.gz QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
-%attr(640,root,root) /boot/*.b
+%attr(640,root,root) /boot/chain.b
+%attr(640,root,root) /boot/os2_d.b
+%attr(640,root,root) /boot/boot-*.b
+%attr(640,root,root) %config(noreplace) %verify(not link) /boot/boot.b
 %attr(755,root,root) /sbin/lilo
 %{_mandir}/man[58]/*
