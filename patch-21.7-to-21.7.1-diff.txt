@@ -1,0 +1,149 @@
+diff -ur lilo-21.7/Makefile lilo-21.7.1/Makefile
+--- lilo-21.7/Makefile	Sat Dec 16 14:41:35 2000
++++ lilo-21.7.1/Makefile	Sat Feb 24 13:14:42 2001
+@@ -106,12 +106,13 @@
+ disk.s:		disk.S
+ 		$(CPP) -traditional $(PCONFIG) -o disk.s  disk.S
+ 
+-bootsect.s:	bootsect.S disk.b filesize
+-		$(CPP) -traditional $(PCONFIG) -DSIZEDISKB=`./filesize disk.b` \
++bootsect.s:	bootsect.S disk.b
++		$(CPP) -traditional $(PCONFIG) \
++			-DSIZEDISKB=`wc -c <disk.b | sed "s/ //g"` \
+ 			-o bootsect.s  bootsect.S
+ 
+-mylilo.h:	temp2.b filesize
+-		echo -DMAX_SECONDARY_FILESIZE=`./filesize temp2.b` >mylilo.h
++mylilo.h:	temp2.b
++		echo -DMAX_SECONDARY_FILESIZE=`wc -c <temp2.b | sed "s/ //g"` >mylilo.h
+ 
+ dparam.com:	dparam.img
+ 		dd if=dparam.img of=dparam.com bs=288 skip=1
+@@ -161,9 +162,6 @@
+ xxx.s:		chain.S lilo.h
+ 		$(CPP) chain.S -DXXX -o xxx.s
+ 
+-filesize:	filesize.c
+-		$(CC) -o filesize filesize.c
+-
+ install:  all
+ 	if [ ! -d $$ROOT$(SBIN_DIR) ]; then mkdir $$ROOT$(SBIN_DIR); fi
+ 	if [ ! -d $$ROOT$(CFG_DIR) ]; then mkdir $$ROOT$(CFG_DIR); fi
+@@ -213,7 +211,7 @@
+ 		if [ -x lilo ]; then strip lilo; fi
+ 
+ clean:		tidy
+-		rm -f *.o *.s *.img $(BFILES) tmp_make mylilo.h first.lis filesize
++		rm -f *.o *.s *.img $(BFILES) tmp_make mylilo.h first.lis
+ 
+ spotless:	clean
+ 		rm -f *~ lilo activate *.b *.com
+@@ -227,7 +225,6 @@
+ cfg.o: cfg.c common.h lilo.h version.h temp.h cfg.h
+ common.o: common.c common.h lilo.h version.h
+ device.o: device.c config.h common.h lilo.h version.h temp.h device.h
+-filesize.o: filesize.c
+ geometry.o: geometry.c config.h lilo.h version.h common.h device.h \
+  geometry.h cfg.h md-int.h
+ identify.o: identify.c cfg.h
+diff -ur lilo-21.7/device.c lilo-21.7.1/device.c
+--- lilo-21.7/device.c	Wed Apr 12 15:21:30 2000
++++ lilo-21.7.1/device.c	Wed Mar  7 13:28:27 2001
+@@ -99,7 +99,7 @@
+ {
+     CACHE_ENTRY *entry;
+ 
+-    if (verbose >= 4) printf("Caching device %s (0x%04X)\n",name,number);
++    if (verbose >= 5) printf("Caching device %s (0x%04X)\n",name,number);
+     entry = alloc_t(CACHE_ENTRY);
+     entry->name = stralloc(name);
+     entry->number = number;
+diff -ur lilo-21.7/geometry.c lilo-21.7.1/geometry.c
+--- lilo-21.7/geometry.c	Tue Jan 16 07:29:14 2001
++++ lilo-21.7.1/geometry.c	Wed Mar  7 13:19:46 2001
+@@ -358,6 +358,14 @@
+ 	case COMPAQ_SMART2_MAJOR+5:
+ 	case COMPAQ_SMART2_MAJOR+6:
+ 	case COMPAQ_SMART2_MAJOR+7:
++	case COMPAQ_CISS_MAJOR+0:
++	case COMPAQ_CISS_MAJOR+1:
++	case COMPAQ_CISS_MAJOR+2:
++	case COMPAQ_CISS_MAJOR+3:
++	case COMPAQ_CISS_MAJOR+4:
++	case COMPAQ_CISS_MAJOR+5:
++	case COMPAQ_CISS_MAJOR+6:
++	case COMPAQ_CISS_MAJOR+7:
+ 	    geo->device = 0x80+last_dev(MAJOR_HD,64)+(MINOR(device) >> 4);
+ 	    if (ioctl(fd,HDIO_GETGEO,&hdprm) < 0)
+ 		die("geo_query_dev HDIO_GETGEO (dev 0x%04x): %s",device,
+@@ -427,14 +435,18 @@
+     int inherited,keep_cyls;
+ 
+     if (MAJOR(device) == MD_MAJOR) {
+-        char mdxxx[11];
++        char mdxxx[16];
+ 	int md_fd, pass;
+ 	md_array_info_t md_array_info;
+ 	md_disk_info_t md_disk_info;
+ 
+ 	sprintf(mdxxx, "/dev/md%d", MINOR(device));
+ 	if ((md_fd=open(mdxxx,O_NOACCESS)) < 0)
+-	    die("Unable to open %s", mdxxx);
++	{
++	    sprintf(mdxxx, "/dev/md/%d", MINOR(device));
++	    if ((md_fd=open(mdxxx,O_NOACCESS)) < 0)
++		die("Unable to open %s", mdxxx);
++	}
+ 	if (ioctl(md_fd,GET_ARRAY_INFO,&md_array_info) < 0)
+ 	    die("Unable to get RAID info on %s", mdxxx);
+ 	if ((md_array_info.major_version == 0) && (md_array_info.minor_version < 90))
+diff -ur lilo-21.7/lilo.c lilo-21.7.1/lilo.c
+--- lilo-21.7/lilo.c	Fri Feb  9 12:25:26 2001
++++ lilo-21.7.1/lilo.c	Wed Mar  7 13:34:14 2001
+@@ -396,7 +396,7 @@
+ 	            argc--;
+ 	        }
+ 	        if (param) 
+-		    verbose = *param - '0';
++		    verbose = to_number(param);
+ 		else
+ 	            verbose++;
+ 		break;
+@@ -426,6 +426,8 @@
+     if (!new_root) new_root = getenv("ROOT");
+     if (new_root && *new_root) {
+ 	if (chroot(new_root) < 0) die("chroot %s: %s",new_root,strerror(errno));
++	if (chdir("/dev") < 0 && !nowarn)
++	    fprintf(stderr, "Warning: root at %s has no /dev directory\n", new_root);
+ 	if (chdir("/") < 0) die("chdir /: %s",strerror(errno));
+     }
+     if (atexit(temp_remove)) die("atexit() failed");
+diff -ur lilo-21.7/lilo.h lilo-21.7.1/lilo.h
+--- lilo-21.7/lilo.h	Tue Jan 16 07:29:14 2001
++++ lilo-21.7.1/lilo.h	Wed Mar  7 13:09:45 2001
+@@ -39,10 +39,11 @@
+ #define MAJOR_IDE4	34 /* IDE on fourth interface */
+ #define MAJOR_ESDI	36 /* PS/2 ESDI drives */
+ #define MAJOR_DAC960	48 /* First Mylex DAC960 PCI RAID controller */
+-#define MAJOR_IDE5	55 /* IDE on fifth interface */
++#define MAJOR_IDE5	56 /* IDE on fifth interface */
+ #define MAJOR_IDE6	57 /* IDE on sixth interface */
+ #define MAJOR_I2O	80 /* I2O block device */
+ #define COMPAQ_SMART2_MAJOR	72 /* First Smart/2 Major */
++#define COMPAQ_CISS_MAJOR	104 /* First CCISS Major */
+ 
+ #define MAX_IMAGES      ((SECTOR_SIZE*2-2)/sizeof(IMAGE_DESCR))
+ 			  /* maximum number of images */
+diff -ur lilo-21.7/version.h lilo-21.7.1/version.h
+--- lilo-21.7/version.h	Sat Feb 24 11:57:28 2001
++++ lilo-21.7.1/version.h	Thu Mar  8 10:52:01 2001
+@@ -5,7 +5,7 @@
+ 
+ #define VERSION_MAJOR 21
+ #define VERSION_MINOR 7
+-#define VERSION_EDIT  ""
+-#define VERSION_DATE "24-Feb-2001"
++#define VERSION_EDIT  "-1"
++#define VERSION_DATE "08-Mar-2001"
+ 
+ #endif

@@ -1,0 +1,164 @@
+diff -ur lilo-21.7.1/boot.c lilo-21.7.2/boot.c
+--- lilo-21.7.1/boot.c	Thu Jan  4 18:03:08 2001
++++ lilo-21.7.2/boot.c	Mon Mar 19 16:25:02 2001
+@@ -170,17 +170,25 @@
+     char *part = NULL;
+     
+     i = strlen(boot);
++  /* handle primary partitions on IDE & SCSI disks */
+     if (i==9 && 
+ 	(strncmp(boot,"/dev/hd",7)==0 || strncmp(boot,"/dev/sd",7)==0) &&
+ 	    boot[8]>='1' && boot[8]<='4') {
+ 		part = strcpy(npart, boot);
+ 		part[8] = 0;
+     }
++  /* handle disks under devfs */
+     else if (strncmp("/part", boot+i-6, 5)==0 &&
+     	    boot[i-1]>='1' && boot[i-1]<='4') {
+ 		part = strcpy(npart, boot);
+ 		strcpy(npart-5+i, "disc");
+-    }  
++    }
++  /* handle /dev/rd/c0d0p1 (Mylex & Compaq controllers) */
++    else if (isdigit(boot[i-1]) && boot[i-2] == 'p' && isdigit(boot[i-3]) &&
++    	    boot[i-1]>='1' && boot[i-1]<='4') {
++    	        part = strcpy(npart, boot);
++    	        part[i-2] = 0;
++    }
+     return part;
+ }
+ 
+diff -ur lilo-21.7.1/geometry.c lilo-21.7.2/geometry.c
+--- lilo-21.7.1/geometry.c	Thu Mar  8 11:00:12 2001
++++ lilo-21.7.2/geometry.c	Tue Mar 20 13:30:24 2001
+@@ -125,8 +125,14 @@
+       MAJOR(dev) == MAJOR_IDE3 || MAJOR(dev) == MAJOR_IDE4 ||
+       MAJOR(dev) == MAJOR_IDE5 || MAJOR(dev) == MAJOR_IDE6 ||
+       MAJOR(dev) == MAJOR_XT || MAJOR(dev) == MAJOR_SD ||
+-      MAJOR(dev) == MAJOR_I2O ||
+-      MAJOR(dev) == MAJOR_ESDI || MAJOR(dev) == MAJOR_DAC960;
++      MAJOR(dev) == MAJOR_SD2 || MAJOR(dev) == MAJOR_SD3 ||
++      MAJOR(dev) == MAJOR_SD4 || MAJOR(dev) == MAJOR_ESDI ||
++      MAJOR(dev) == MAJOR_AMI_HYP ||
++      (MAJOR(dev) >= MAJOR_IDE7 && MAJOR(dev) <= MAJOR_IDE10) ||
++      (MAJOR(dev) >= MAJOR_I2O && MAJOR(dev) <= MAJOR_I2O+7) ||
++      (MAJOR(dev) >= MAJOR_DAC960 && MAJOR(dev) <= MAJOR_DAC960+7) ||
++      (MAJOR(dev) >= COMPAQ_SMART2_MAJOR && MAJOR(dev) <= COMPAQ_SMART2_MAJOR+7) ||
++      (MAJOR(dev) >= COMPAQ_CISS_MAJOR && MAJOR(dev) <= COMPAQ_CISS_MAJOR+7);
+ }
+ 
+ 
+@@ -308,12 +314,23 @@
+ 	case MAJOR_IDE5:
+ 	    /* fall through */
+ 	case MAJOR_IDE6:
++	case MAJOR_IDE7:
++	case MAJOR_IDE8:
++	case MAJOR_IDE9:
++	case MAJOR_IDE10:
+ 	    /* fall through */
+ 	case MAJOR_ESDI:
+ 	    /* fall through */
+ 	case MAJOR_XT:
+ 	    /* fall through */
+ 	case MAJOR_I2O:
++	case MAJOR_I2O+1:
++	case MAJOR_I2O+2:
++	case MAJOR_I2O+3:
++	case MAJOR_I2O+4:
++	case MAJOR_I2O+5:
++	case MAJOR_I2O+6:
++	case MAJOR_I2O+7:
+ 	    geo->device = 0x80+(MINOR(device) >> 6)+(MAJOR(device) == MAJOR_HD ?
+ 	      0 : last_dev(MAJOR_HD,64));
+ 	    if (ioctl(fd,HDIO_GETGEO,&hdprm) < 0)
+@@ -325,6 +342,9 @@
+ 	    geo->start = hdprm.start;
+ 	    break;
+ 	case MAJOR_SD:
++	case MAJOR_SD2:
++	case MAJOR_SD3:
++	case MAJOR_SD4:
+ 	    geo->device = 0x80+last_dev(MAJOR_HD,64)+(MINOR(device) >> 4);
+ 	    if (ioctl(fd,HDIO_GETGEO,&hdprm) < 0)
+ 		die("geo_query_dev HDIO_GETGEO (dev 0x%04x): %s",device,
+@@ -338,6 +358,13 @@
+ 	    geo->start = hdprm.start;
+ 	    break;
+ 	case MAJOR_DAC960:
++	case MAJOR_DAC960+1:
++	case MAJOR_DAC960+2:
++	case MAJOR_DAC960+3:
++	case MAJOR_DAC960+4:
++	case MAJOR_DAC960+5:
++	case MAJOR_DAC960+6:
++	case MAJOR_DAC960+7:
+ 	    geo->device = 0x80+last_dev(MAJOR_HD,64)+(MINOR(device) >> 3);
+ 	    if (ioctl(fd,HDIO_GETGEO,&hdprm) < 0)
+ 		die("geo_query_dev HDIO_GETGEO (dev 0x%04x): %s",device,
+@@ -350,6 +377,7 @@
+ 	    geo->sectors = hdprm.sectors;
+ 	    geo->start = hdprm.start;
+ 	    break;
++	case MAJOR_AMI_HYP:
+ 	case COMPAQ_SMART2_MAJOR+0:
+ 	case COMPAQ_SMART2_MAJOR+1:
+ 	case COMPAQ_SMART2_MAJOR+2:
+diff -ur lilo-21.7.1/lilo.c lilo-21.7.2/lilo.c
+--- lilo-21.7.1/lilo.c	Thu Mar  8 11:00:12 2001
++++ lilo-21.7.2/lilo.c	Tue Mar 13 10:28:00 2001
+@@ -315,7 +315,7 @@
+ 	    case 'I':
+ 		identify = param;
+ 		if (argc) {
+-		    ident_opt = *argv++;
++		    ident_opt = *++argv;
+ 		    argc--;
+ 		} else {
+ 		    ident_opt = "i";
+diff -ur lilo-21.7.1/lilo.h lilo-21.7.2/lilo.h
+--- lilo-21.7.1/lilo.h	Thu Mar  8 11:00:12 2001
++++ lilo-21.7.2/lilo.h	Tue Mar 20 13:30:29 2001
+@@ -32,7 +32,10 @@
+ #define MAJMIN_RAM	0x101 /* RAM disk */
+ #define MAJOR_FD	2 /* floppy disks */
+ #define MAJOR_HD	3 /* IDE-type hard disks */
+-#define MAJOR_SD	8 /* SCSI disks */
++#define MAJOR_SD	8 /* SCSI disks 0-15 */
++#define MAJOR_SD2	65 /* SCSI disks 16-31 */
++#define MAJOR_SD3	66 /* SCSI disks 32-47 */
++#define MAJOR_SD4	67 /* SCSI disks 48-63 */
+ #define MAJOR_XT	13 /* XT-type hard disks */
+ #define MAJOR_IDE2	22 /* IDE on second interface */
+ #define MAJOR_IDE3	33 /* IDE on third interface */
+@@ -41,9 +44,14 @@
+ #define MAJOR_DAC960	48 /* First Mylex DAC960 PCI RAID controller */
+ #define MAJOR_IDE5	56 /* IDE on fifth interface */
+ #define MAJOR_IDE6	57 /* IDE on sixth interface */
+-#define MAJOR_I2O	80 /* I2O block device */
+-#define COMPAQ_SMART2_MAJOR	72 /* First Smart/2 Major */
+-#define COMPAQ_CISS_MAJOR	104 /* First CCISS Major */
++#define MAJOR_IDE7	88 /* IDE on seventh interface */
++#define MAJOR_IDE8	89 /* IDE on eighth interface */
++#define MAJOR_IDE9	90 /* IDE on ninth interface */
++#define MAJOR_IDE10	91 /* IDE on tenth interface */
++#define MAJOR_I2O	80  /* First I2O block device 80-87 */
++#define COMPAQ_SMART2_MAJOR	72 /* First Smart/2 Major 72-79 */
++#define COMPAQ_CISS_MAJOR	104 /* First CCISS Major 104-111 */
++#define MAJOR_AMI_HYP	101 /* AMI Hyper Disk RAID controller */
+ 
+ #define MAX_IMAGES      ((SECTOR_SIZE*2-2)/sizeof(IMAGE_DESCR))
+ 			  /* maximum number of images */
+diff -ur lilo-21.7.1/version.h lilo-21.7.2/version.h
+--- lilo-21.7.1/version.h	Thu Mar  8 11:00:12 2001
++++ lilo-21.7.2/version.h	Tue Mar 20 13:39:45 2001
+@@ -5,7 +5,7 @@
+ 
+ #define VERSION_MAJOR 21
+ #define VERSION_MINOR 7
+-#define VERSION_EDIT  "-1"
+-#define VERSION_DATE "08-Mar-2001"
++#define VERSION_EDIT  "-2"
++#define VERSION_DATE "20-Mar-2001"
+ 
+ #endif

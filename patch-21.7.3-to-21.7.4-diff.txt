@@ -1,0 +1,311 @@
+diff -ur lilo-21.7.3/CHANGES lilo-21.7.4/CHANGES
+--- lilo-21.7.3/CHANGES	Wed Mar 28 15:24:09 2001
++++ lilo-21.7.4/CHANGES	Tue Apr 10 17:09:31 2001
+@@ -1,4 +1,17 @@
+ 
++Changes from version 21.7.3 to 21.7.4 (10-Apr-2001) John Coffman
++
++  Boot Installer
++  --------------
++    - Issue warning when CHANGE AUTOMATIC is to be inserted.
++    - Correct DAC960 partition mask.
++
++  Boot Loader
++  -----------
++    - Fix password timeout security hole which allowed booting with-
++      out entering a password.
++
++
+ Changes from version 21.7.2 to 21.7.3 (28-Mar-2001) John Coffman
+ 
+   Boot Installer
+diff -ur lilo-21.7.3/boot.c lilo-21.7.4/boot.c
+--- lilo-21.7.3/boot.c	Mon Mar 19 16:25:02 2001
++++ lilo-21.7.4/boot.c	Tue Apr 10 16:55:42 2001
+@@ -1,6 +1,13 @@
+ /* boot.c  -  Boot image composition */
++/*
++Copyright 1992-1997 Werner Almesberger.
++Copyright 1999-2001 John Coffman.
++All rights reserved.
++
++Licensed under the terms contained in the file 'COPYING' in the 
++source directory.
+ 
+-/* Copyright 1992-1997 Werner Almesberger. See file COPYING for details. */
++*/
+ 
+ 
+ #include <stdlib.h>
+@@ -160,15 +167,17 @@
+     cfg_unset(cf_other,"map-drive");
+ }
+ 
++
+ /*
+    Return the derived "table=", if possible
+ */
+-static char npart[80];
+ char *boot_table (char *boot)
+ {
+     int i;
++    char *npart;
+     char *part = NULL;
+     
++    npart = stralloc(boot);
+     i = strlen(boot);
+   /* handle primary partitions on IDE & SCSI disks */
+     if (i==9 && 
+@@ -234,8 +243,11 @@
+ 	printf("Boot other: %s%s%s, loader %s\n",boot,part ? ", on " : "",part
+ 	  ? part : "",loader);
+ 
+-    if (!cfg_get_flag(cf_other, "change"))
++    if (!cfg_get_flag(cf_other, "change")) {
++    	autoauto = 1;	/* flag that change rules may be automatically inserted */
+         do_cr_auto();
++        autoauto = 0;
++    }
+ 
+     if (cfg_get_flag(cf_other,"unsafe")) {
+ 	(void) geo_open_boot(&geo,boot);
+diff -ur lilo-21.7.3/common.c lilo-21.7.4/common.c
+--- lilo-21.7.3/common.c	Tue Jun 27 18:43:13 2000
++++ lilo-21.7.4/common.c	Tue Apr 10 16:40:54 2001
+@@ -13,7 +13,8 @@
+ #include "lilo.h"
+ 
+ 
+-int verbose = 0,test = 0,compact = 0,linear = 0,nowarn = 0, lba32 = 0;
++int verbose = 0,test = 0,compact = 0,linear = 0,nowarn = 0, lba32 = 0,
++					autoauto = 0;
+ 
+ unsigned short drv_map[DRVMAP_SIZE+1]; /* fixup maps ... */
+ int curr_drv_map;
+diff -ur lilo-21.7.3/common.h lilo-21.7.4/common.h
+--- lilo-21.7.3/common.h	Tue Aug 29 15:35:49 2000
++++ lilo-21.7.4/common.h	Tue Apr 10 16:34:47 2001
+@@ -108,7 +108,7 @@
+ #define alloc_t(t) ((t *) alloc(sizeof(t)))
+ 
+ 
+-extern int verbose,test,compact,linear,nowarn,lba32;
++extern int verbose,test,compact,linear,nowarn,lba32,autoauto;
+ extern int boot_dev_nr;
+ 
+ extern unsigned short drv_map[DRVMAP_SIZE+1]; /* needed for fixup maps */
+diff -ur lilo-21.7.3/crt.S lilo-21.7.4/crt.S
+--- lilo-21.7.3/crt.S	Tue Aug 29 15:35:01 2000
++++ lilo-21.7.4/crt.S	Sun Apr  1 14:42:11 2001
+@@ -472,6 +472,9 @@
+ timer_display:
+ 	pusha
+ 
++	cmp	[timer_dx],#0	; initialized?
++	jz	timer99
++
+ 	mov	dx,#0x2d2d	; get "--" means disabled
+ 	mov	[tim_min],dx
+ 	mov	[tim_sec],dx
+diff -ur lilo-21.7.3/geometry.c lilo-21.7.4/geometry.c
+--- lilo-21.7.3/geometry.c	Tue Mar 20 13:30:24 2001
++++ lilo-21.7.4/geometry.c	Thu Apr  5 20:49:23 2001
+@@ -119,9 +119,10 @@
+ }
+ 
+ 
+-static int has_partitions(dev_t dev)
++int has_partitions(dev_t dev)
+ {
+-    return MAJOR(dev) == MAJOR_HD || MAJOR(dev) == MAJOR_IDE2 ||
++    if (
++      MAJOR(dev) == MAJOR_HD || MAJOR(dev) == MAJOR_IDE2 ||
+       MAJOR(dev) == MAJOR_IDE3 || MAJOR(dev) == MAJOR_IDE4 ||
+       MAJOR(dev) == MAJOR_IDE5 || MAJOR(dev) == MAJOR_IDE6 ||
+       MAJOR(dev) == MAJOR_XT || MAJOR(dev) == MAJOR_SD ||
+@@ -132,7 +133,13 @@
+       (MAJOR(dev) >= MAJOR_I2O && MAJOR(dev) <= MAJOR_I2O+7) ||
+       (MAJOR(dev) >= MAJOR_DAC960 && MAJOR(dev) <= MAJOR_DAC960+7) ||
+       (MAJOR(dev) >= COMPAQ_SMART2_MAJOR && MAJOR(dev) <= COMPAQ_SMART2_MAJOR+7) ||
+-      (MAJOR(dev) >= COMPAQ_CISS_MAJOR && MAJOR(dev) <= COMPAQ_CISS_MAJOR+7);
++      (MAJOR(dev) >= COMPAQ_CISS_MAJOR && MAJOR(dev) <= COMPAQ_CISS_MAJOR+7)
++        ) return 0xFFF0;	/* 4 bit partition mask */
++
++    if (MAJOR(dev) >= MAJOR_DAC960 && MAJOR(dev) <= MAJOR_DAC960+7)
++          return 0xFFF8;	/* 3 bit partition mask */
++
++    return 0;
+ }
+ 
+ 
+diff -ur lilo-21.7.3/geometry.h lilo-21.7.4/geometry.h
+--- lilo-21.7.3/geometry.h	Sat Nov  6 13:09:40 1999
++++ lilo-21.7.4/geometry.h	Thu Apr  5 20:49:26 2001
+@@ -29,6 +29,12 @@
+ 
+ extern DT_ENTRY *disktab;
+ 
++
++int has_partitions(dev_t dev);
++
++/* indicates that the specified device is a block hard disk device */
++/* returns the partition mask or 0 */
++
+ void geo_init(char *name);
+ 
+ /* Loads the disk geometry table. */
+diff -ur lilo-21.7.3/map.c lilo-21.7.4/map.c
+--- lilo-21.7.3/map.c	Mon Oct  9 16:28:33 2000
++++ lilo-21.7.4/map.c	Mon Apr  2 10:47:20 2001
+@@ -1,6 +1,13 @@
+ /* map.c  -  Map file creation */
++/*
++Copyright 1992-1998 Werner Almesberger.
++Copyright 1999-2001 John Coffman.
++All rights reserved.
+ 
+-/* Copyright 1992-1995 Werner Almesberger. See file COPYING for details. */
++Licensed under the terms contained in the file 'COPYING' in the 
++source directory.
++
++*/
+ 
+ 
+ #include <unistd.h>
+@@ -278,7 +285,7 @@
+ 	}
+ 	memcpy(buffer+offset,&walk->addr,sizeof(SECTOR_ADDR));
+ 	offset += sizeof(SECTOR_ADDR);
+-	sectors += walk->addr.num_sect;
++	sectors += walk->addr.device&LBA32_NOCOUNT ? 1 : walk->addr.num_sect;
+ 	free(walk);
+     }
+     if (offset)
+diff -ur lilo-21.7.3/partition.c lilo-21.7.4/partition.c
+--- lilo-21.7.3/partition.c	Tue Jan 16 07:29:14 2001
++++ lilo-21.7.4/partition.c	Tue Apr 10 16:48:57 2001
+@@ -1,6 +1,13 @@
+ /* partition.c  -  Partition table handling */
++/*
++Copyright 1992-1998 Werner Almesberger.
++Copyright 1999-2001 John Coffman.
++All rights reserved.
++
++Licensed under the terms contained in the file 'COPYING' in the 
++source directory.
+ 
+-/* Copyright 1992-1998 Werner Almesberger. See file COPYING for details. */
++*/
+ 
+ 
+ #include <unistd.h>
+@@ -40,7 +47,12 @@
+     char backup_file[PATH_MAX+1];
+     int fd,bck_file,part,size,lin_3d,cyl;
+     struct partition part_table[PART_MAX];
+-
++#if 1
++    int mask;
++    
++    if (!(mask = has_partitions(dev_nr)) || !(dev_nr & mask) ||
++        (dev_nr & mask) > PART_MAX ) return;
++#else
+     if (!(dev_nr & PART_MASK) || (dev_nr & PART_MASK) > PART_MAX ||
+       (MAJOR(dev_nr) != MAJOR_HD && MAJOR(dev_nr) != MAJOR_XT &&
+        MAJOR(dev_nr) != MAJOR_SD && MAJOR(dev_nr) != MAJOR_IDE2 &&
+@@ -48,6 +60,7 @@
+        MAJOR(dev_nr) != MAJOR_IDE5 && MAJOR(dev_nr) != MAJOR_IDE6 &&
+        MAJOR(dev_nr) != MAJOR_I2O &&
+       MAJOR(dev_nr) != MAJOR_DAC960)) return;
++#endif      
+     geo_get(&geo,dev_nr & ~PART_MASK,-1,1);
+     fd = dev_open(&dev,dev_nr & ~PART_MASK,cfg_get_flag(cf_options,"fix-table")
+       && !test ? O_RDWR : O_RDONLY);
+@@ -238,18 +251,26 @@
+ {
+     GEOMETRY geo;
+     struct stat st;
+-    char *table, *other;
++    char *table, *table2, *other;
+     int partition, pfd, i, j;
+     struct partition part_table[PART_MAX];
+ 
++    if (autoauto) has_partition = 0;
+     other = cfg_get_strg(cf_top, "other");
+-    if (verbose > 4) printf("do_cr_auto: other=%s\n", other);
++    if (verbose > 4) printf("do_cr_auto: other=%s has_partition=%d\n",
++        other, has_partition);
++#if 0
+     i = other[strlen(other)-1] - '0';
+     if (i>PART_MAX || i<1) return;
+-    if (has_partition) cfg_error("AUTOMATIC must be before PARTITION");
++#endif
+     table = cfg_get_strg(cf_other,"table");
+-    if (!table) table = boot_table(other);	/* get possible default */
+-    if (!table || strlen(table)<4) return;
++    table2 = boot_table(other);	/* get possible default */
++    if (!table) table = table2;
++    
++    if (!table && autoauto) return;
++    if (table && autoauto && !table2) cfg_error("TABLE may not be specified");
++   
++    if (has_partition) cfg_error("AUTOMATIC must be before PARTITION");
+     if (!table) cfg_error("TABLE must be set to use AUTOMATIC");
+     /*    
+      */
+@@ -257,7 +278,8 @@
+     geo_get(&geo,st.st_rdev & ~PART_MASK,-1,1);
+     partition = st.st_rdev & PART_MASK;
+     if (!S_ISBLK(st.st_mode) || partition)
+-	cfg_error("\"%s\" isn't a primary partition",table);
++/***	cfg_error("\"%s\" isn't a primary partition",table);	***/
++	cfg_error("\"%s\" doesn't contain a primary partition table",table);
+     pfd = open(table, O_RDONLY);
+     if (pfd<0) die("Cannot open %s", table);
+     if (lseek(pfd, PART_TABLE_OFFSET, SEEK_SET)!=PART_TABLE_OFFSET)
+@@ -276,6 +298,11 @@
+     	CHANGE_RULE *cr;
+ 	if ((cr=may_change(part_table[i].sys_ind))) {
+ 	    j = i*PARTITION_ENTRY + PART_TYPE_ENT_OFF;
++	    if (autoauto && !nowarn) {
++	    	fflush(stdout);
++	        fprintf(stderr, "Warning: CHANGE AUTOMATIC assumed after \"other=%s\"\n", other);
++	        autoauto = 0;  /* suppress further warnings */
++	    }    
+ 	    if (i == partition-1)
+ 		add_rule(geo.device, j, cr->hidden, cr->normal);
+ 	    else
+@@ -315,6 +342,8 @@
+ 	char *here;
+ 	int hidden;
+ 
++	here = (void*)NULL;	/* quiet GCC */
++	hidden = 0;		/* quiet GCC */
+ 	if (strlen(tmp) < 7 || !(here = strrchr(tmp,'_')) ||
+ 	  ((hidden = strcasecmp(here+1,"normal")) &&
+ 	  strcasecmp(here+1,"hidden")))
+diff -ur lilo-21.7.3/second.S lilo-21.7.4/second.S
+--- lilo-21.7.3/second.S	Sat Feb 24 11:45:54 2001
++++ lilo-21.7.4/second.S	Sun Apr  1 14:41:28 2001
+@@ -872,6 +872,8 @@
+ toboot:	jmp	doboot		! ...
+ dopw:	push	bx		! save the image descriptor
+ 	lea	si,(bx+MAX_IMAGE_NAME+1) ! get a pointer to the password string
++	seg	fs		! disable timeout
++	mov	DSC_OFF-10+SSDIFF,#0xffff
+ 	mov	bx,#msg_pw	! display a prompt
+ 	call	say
+ pwagain:xor	cl,cl		! CL counts characters after a mismatch
+diff -ur lilo-21.7.3/version.h lilo-21.7.4/version.h
+--- lilo-21.7.3/version.h	Thu Mar 29 15:36:08 2001
++++ lilo-21.7.4/version.h	Tue Apr 10 16:56:34 2001
+@@ -5,7 +5,7 @@
+ 
+ #define VERSION_MAJOR 21
+ #define VERSION_MINOR 7
+-#define VERSION_EDIT  "-3"
+-#define VERSION_DATE "29-Mar-2001"
++#define VERSION_EDIT  "-4"
++#define VERSION_DATE "10-Apr-2001"
+ 
+ #endif

@@ -9,19 +9,19 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
-Version:	22.3.2
-Release:	1
-Epoch:		1
+Version:	22.5.2
+Release:	2
+Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
+#Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
+Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
-Patch0:		%{name}-evms.patch
-Patch1:		%{name}-makefile.patch
-Patch2:		%{name}-nobash.patch
+Patch0:		%{name}-makefile.patch
+Patch1:		%{name}-nobash.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -79,21 +79,20 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/sysconfig/rc-boot,%{_mandir}/man{5,8}}
+install -d $RPM_BUILD_ROOT{/etc/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
 %{__make} install ROOT=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
 # driver for rc-boot
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
@@ -112,7 +111,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
-%{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
+/etc/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(755,root,root) /sbin/lilo
 %attr(755,root,root) /sbin/mkrescue
