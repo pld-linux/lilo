@@ -15,6 +15,8 @@ Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}.8
 Source2:	%{name}.conf.5
 Patch0:		%{name}-no-boot.patch
+Patch1:		ftp://brun.dyndns.org/pub/linux/lilo/patch-%{version}-09Oct00.diff 
+Patch2:		ftp://brun.dyndns.org/pub/linux/lilo/patch-%{version}-14Oct00.diff
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -47,6 +49,8 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p0
+%patch2 -p0
 
 %build
 %{__make} OPTIMIZE="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}" LDFLAGS="%{!?debug:-s}"
