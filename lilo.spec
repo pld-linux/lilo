@@ -2,7 +2,7 @@ Summary:	Boot loader for Linux and other operating systems
 Summary(de):	Boot-Lader für Linux und andere Betriebssysteme
 Summary(es):	Cargador de arranque para Linux y otros sistemas operativos
 Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
-Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
+Summary(pl):	Boot Loader dla Linuksa i innych systemów operacyjnych
 Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
@@ -65,7 +65,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %patch1 -p1
 
 %build
-%{__make} OPTIMIZE="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+%{__make} OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -73,12 +73,14 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man{5,8}}
 
 %{__make} install ROOT=$RPM_BUILD_ROOT
 
-#touch $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
 gzip -9nf README CHANGES INCOMPAT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post
 #if [ -s %{_sysconfdir}/lilo.conf]; then
@@ -86,10 +88,6 @@ gzip -9nf README CHANGES INCOMPAT
 #fi
 [ ! -r /etc/sysconfig/rc-boot/lilo_functions.sh ] || ln -sf /etc/sysconfig/rc-boot/lilo_functions.sh /etc/sysconfig/rc-boot/functions.sh
 echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
