@@ -9,20 +9,19 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
-Version:	22.5
-Release:	2
+Version:	22.5.1
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
-#Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
+Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
+#Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
-Patch2:		http://home.san.rr.com/johninsd/pub/linux/lilo/updates/lilo-22.5.protectDX.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -80,7 +79,6 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
