@@ -10,7 +10,7 @@ Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
 Version:	22.3.3
-Release:	1
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -114,6 +114,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(755,root,root) /sbin/lilo
+%attr(755,root,root) /usr/sbin/keytab-lilo.pl
 %attr(755,root,root) /sbin/mkrescue
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
