@@ -66,10 +66,12 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
 
 gzip -9nf README CHANGES INCOMPAT
 
-#%post
+%post
 #if [ -s %{_sysconfdir}/lilo.conf]; then
 #	/sbin/lilo
 #fi
+echo "Remember to type 'lilo' after upgrade"
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
