@@ -27,6 +27,7 @@ Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 Patch2:		%{name}-ioctls.patch
 Patch3:		%{name}-gkh.patch
+Patch4:		%{name}-cc.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -86,6 +87,7 @@ OS/2.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__make} \
