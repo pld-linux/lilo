@@ -21,6 +21,7 @@ Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-evms.patch
 Patch1:		%{name}-makefile.patch
+Patch2:		%{name}-nobash.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -78,6 +79,7 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
@@ -97,8 +99,6 @@ install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-gzip -9nf README* CHANGES INCOMPAT
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -110,15 +110,17 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz QuickInst
+%doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(755,root,root) /sbin/lilo
+%attr(755,root,root) /sbin/mkrescue
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
 %lang(de) %{_mandir}/de/man[58]/*
-%lang(es) %{_mandir}/fr/man[58]/*
+%lang(es) %{_mandir}/es/man[58]/*
+%lang(fr) %{_mandir}/fr/man[58]/*
 %lang(hu) %{_mandir}/hu/man[58]/*
 %lang(it) %{_mandir}/it/man[58]/*
 %lang(ja) %{_mandir}/ja/man[58]/*
