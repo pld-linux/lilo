@@ -1,7 +1,9 @@
 Summary:	Boot loader for Linux and other operating systems
 Summary(de):	Boot-Lader für Linux und andere Betriebssysteme
+Summary(es):	Cargador de arranque para Linux y otros sistemas operativos
 Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
 Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
+Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	22.0.1
@@ -15,7 +17,7 @@ Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-22.0.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Patch0:		%{name}-makefile.patch
-Patch1:		ftp://brun.dyndns.org/pub/linux/lilo/patch-lilo-%{version}.dif.gz
+Patch1:		ftp://brun.dyndns.org/pub/linux/lilo/patch-%{name}-%{version}.dif.gz
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -33,11 +35,23 @@ Diskette oder einer Festplatte, und übergibt diesem dann die Kontrolle
 über das System. Es kann auch benutzt werden, um viele andere
 Betriebssysteme zu laden, etwa die BSD-Varianten, DOS und OS/2.
 
+%description -l es
+Lilo es responsable de cargar el kernel Linux de un disquete o del
+disco duro, dándole el control del sistema. Puede también ser usado
+para "bootar" varios otros sistemas operativos, incluyendo variantes
+de BSD, DOS y OS/2.
+
 %description -l pl
 Lilo jest odpowiedzialny za ³adowanie j±dra systemu Linux z dysku
 twardego lub stacji dyskietek. Mo¿e tak¿e byæ u¿ywany do startowania
 innych systemów operacyjnych, takich jak ró¿ne warianty BSD czy OS/2,
 jak równie¿ DOS.
+
+%description -l pt_BR
+Lilo é responsável pelo carregamento do kernel Linux de um disquete ou
+do disco rígido, dando a ele o controle do sistema. Ele pode também
+ser usado para "bootar" vários outros sistemas operacionais, incluindo
+variantes de BSD, DOS e OS/2.
 
 %description -l tr
 Lilo, Linux çekirdeðinin disket veya sabit disk sürücüden
