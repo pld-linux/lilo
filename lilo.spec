@@ -9,13 +9,13 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.5.5
+Version:	22.5.6
 Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
-# Source0-md5:	59d4aea879259085f0acd746fb2972bf
+# Source0-md5:	fd85e0cd157e77c1f565dbe649cbaaab
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -103,9 +103,6 @@ bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-#if [ -s %{_sysconfdir}/lilo.conf]; then
-#	/sbin/lilo
-#fi
 echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 %files
