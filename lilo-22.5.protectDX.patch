@@ -1,0 +1,47 @@
+--- ../lilo-22.5/first.S	Thu Feb 20 16:19:39 2003
++++ first.S	Sat Mar  8 15:23:29 2003
+@@ -113,6 +113,8 @@
+ 	push	es		! set ext_es
+ 	push	si		! set ext_si
+ 
++	push	dx		! protect DL
++
+ #define JRC_DS_EQ_SS
+ 
+ 	cld			! do not forget to do this !!!
+@@ -144,14 +146,16 @@
+ #endif
+ 
+ #if defined(DEBUG)
+-;;;	mov	ax,dx
++	pop	dx
++	push	dx		! keep DL protected
+ 	mov	ah,dl
+ 	call	bout		! code in AH
+-;;;	call	bout		! code in AL
+ #endif
+ 	mov	al,#0x4c	! ... an 'L' ...
+ 	call	display
+ 
++	pop	dx		! restore DL input
++
+ 	cmp	dl,#EX_DL_MAG	! possible boot command line (chain.S)
+ 	jne	boot_in_dl
+ 	mov	dl,dh		! code passed in DH instead
+@@ -208,7 +212,7 @@
+ 	sub	ax,[dataend](bp)	! allow for PARMLINE
+ 	push	ax
+ #else
+-	push	#SETUP_STACKSIZE/16 + BOOTSEG + SECTOR_SIZE/16
++	push	#SETUP_STACKSIZE/16 + BOOTSEG + SECTOR_SIZE/16 + DOSRELOC/16
+ #endif
+ 	pop	es
+ 	xor	bx,bx
+@@ -357,6 +361,7 @@
+ 	.blkb	16
+ 	.blkb	16
+ 	.blkb	16
++DOSRELOC = * - theend
+ 	.word	0xAA55		! boot block signature
+ 
+ ! Better be exactly 0x200
