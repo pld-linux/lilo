@@ -9,8 +9,7 @@ Release:	5
 Copyright:	MIT
 Group:		Utilities/System 
 Group(pl):	Narzêdzia/System 
-URL:		ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo
-Source0:	%{name}-21.tar.gz
+Source0:	ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-21.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
 Exclusivearch:	i386 i486 i586 i686
@@ -46,7 +45,7 @@ make OPTIMIZE="$RPM_OPT_FLAGS" LDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{etc,usr/share/man/man{5,8}}
+install -d $RPM_BUILD_ROOT{/etc,%{_mandir}/man{5,8}}
 
 make install ROOT=$RPM_BUILD_ROOT
 
@@ -55,8 +54,8 @@ touch $RPM_BUILD_ROOT/etc/lilo.conf
 install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man8
 install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
 
-gzip -9nf README CHANGES INCOMPAT
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man[58]/*
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man[58]/* \
+	README CHANGES INCOMPAT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
