@@ -8,8 +8,8 @@ Summary(ru):	Загрузчик для Linux и других операционных систем
 Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
-Version:	22.2
-Release:	3
+Version:	22.3
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -110,12 +110,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %doc *.gz QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
-%attr(640,root,root) /boot/chain.b
-%attr(640,root,root) /boot/os2_d.b
-%attr(640,root,root) /boot/boot-*.b
-%attr(640,root,root) /boot/mbr.b
 %attr(640,root,root) /boot/lilo-pldblack.bmp
-%attr(640,root,root) %config(noreplace) %verify(not link) /boot/boot.b
 %attr(755,root,root) /sbin/lilo
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
