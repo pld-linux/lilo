@@ -5,7 +5,7 @@ Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	22.0
-Release:	1
+Release:	2
 Epoch:		1
 License:	MIT
 Group:		Applications/System
