@@ -8,8 +8,8 @@ Summary(ru):	Загрузчик для Linux и других операционных систем
 Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
-Version:	22.3
-Release:	2
+Version:	22.3.1
+Release:	1
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -18,8 +18,7 @@ Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
-Patch0:		%{name}-makefile.patch
-Patch1:		%{name}-evms.patch
+Patch0:		%{name}-evms.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -76,7 +75,6 @@ OS/2.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
