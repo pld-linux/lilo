@@ -11,7 +11,7 @@ License:	MIT
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
-Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
+Source0:	ftp://brun.dyndns.org/pub/linux/lilo/beta/%{name}-%{version}-beta.tar.gz
 Source1:	%{name}-pldblack.bmp
 Patch0:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
@@ -44,7 +44,7 @@ açýlýþta yüklenmesi için kullanýlýr. Bu sistemler arasýnda BSD
 türevleri, DOS ve OS/2 sayýlabilir.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}-beta
 %patch0 -p1
 
 %build
@@ -66,7 +66,8 @@ gzip -9nf README CHANGES INCOMPAT
 #if [ -s %{_sysconfdir}/lilo.conf]; then
 #	/sbin/lilo
 #fi
-echo "Remember to type \"lilo\" after upgrade"
+[ ! -r /etc/sysconfig/rc-boot/lilo_functions.sh ] || ln -sf /etc/sysconfig/rc-boot/lilo_functions.sh /etc/sysconfig/rc-boot/functions.sh
+echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 
 %clean
