@@ -15,6 +15,8 @@ Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}.8
 Source2:	%{name}.conf.5
 Patch0:		%{name}-no-boot.patch
+Patch1:		%{name}-sa5300.patch
+Patch2:		%{name}-i2o.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -47,6 +49,8 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} OPTIMIZE="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS}" LDFLAGS="%{!?debug:-s}"
