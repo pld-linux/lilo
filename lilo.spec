@@ -5,8 +5,8 @@ Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
 Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
-Version:	21.7.2
-Release:	2
+Version:	21.7.3
+Release:	1
 Epoch:		1
 License:	MIT
 Group:		Applications/System
@@ -18,7 +18,8 @@ Source2:	%{name}.conf.5
 Patch0:		%{name}-no-boot.patch
 Patch1:		%{name}-opt.patch
 Patch2:		ftp://brun.dyndns.org/pub/linux/lilo/patch-%{sver}-to-21.7.1-diff.txt
-Patch3:		ftp://brun.dyndns.org/pub/linux/lilo/patch-21.7.1-to-%{version}-diff.txt
+Patch3:		ftp://brun.dyndns.org/pub/linux/lilo/patch-21.7.1-to-21.7.2-diff.txt
+Patch4:		ftp://brun.dyndns.org/pub/linux/lilo/patch-21.7.2-to-%{version}-diff.txt
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
