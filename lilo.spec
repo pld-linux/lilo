@@ -60,9 +60,6 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man[58]/* \
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/lilo > /dev/null
-
 %files
 %defattr(644,root,root,755)
 %doc {README,CHANGES,INCOMPAT}.gz QuickInst
