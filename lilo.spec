@@ -19,10 +19,11 @@ Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 Source4:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-evms.patch
+Patch1:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
-Exclusivearch:	%{ix86}
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -75,6 +76,7 @@ OS/2.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"

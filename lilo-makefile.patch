@@ -1,11 +1,11 @@
-diff -ruN lilo-22.3/Makefile lilo-22.3.my/Makefile
---- lilo-22.3/Makefile	Fri May  3 20:16:04 2002
-+++ lilo-22.3.my/Makefile	Mon May 20 13:45:53 2002
-@@ -69,7 +69,7 @@
+--- lilo-22.3.1/Makefile.orig	Mon Jun 17 21:25:31 2002
++++ lilo-22.3.1/Makefile	Mon Jun 17 21:26:53 2002
+@@ -71,8 +71,7 @@
  CFG_DIR=/etc
  BOOT_DIR=/boot
  USRSBIN_DIR=/usr/sbin
--MAN_DIR=`manpath | sed "s/:.*//"`
+-MAN_DIR=`if [ -f /usr/man/manpath ]; then \
+-  manpath | sed "s/:.*//"; else echo /usr/man; fi`
 +MAN_DIR=/usr/share/man
  BUILTIN=`./lilo -X | grep CFLAGS | grep LCF_BUILTIN | wc -l | sed "s/ //g"`
  
