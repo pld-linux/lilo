@@ -13,6 +13,7 @@ Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 Source0:	ftp://brun.dyndns.org/pub/linux/lilo/beta/%{name}-%{version}-beta.tar.gz
 Source1:	%{name}-pldblack.bmp
+Source2:	%{name}.conf
 Patch0:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
@@ -56,7 +57,8 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man{5,8}}
 
 %{__make} install ROOT=$RPM_BUILD_ROOT
 
-touch $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
+#touch $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
