@@ -66,10 +66,10 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
 
 gzip -9nf README CHANGES INCOMPAT
 
-%post
-if [ -s %{_sysconfdir}/lilo.conf]; then
-	/sbin/lilo
-fi
+#%post
+#if [ -s %{_sysconfdir}/lilo.conf]; then
+#	/sbin/lilo
+#fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
