@@ -10,7 +10,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.5.9
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -30,7 +30,9 @@ Patch3:		%{name}-gkh.patch
 Patch4:		%{name}-cc.patch
 Patch5:		%{name}-doc-fallback.patch
 Patch6:		%{name}-pagesize.patch
+Patch7:		http://www.saout.de/misc/%{name}-22.5.9-devmapper.patch
 URL:            http://lilo.go.dyndns.org/
+BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	nasm
 Provides:	bootloader
@@ -93,6 +95,7 @@ OS/2.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__make} \
