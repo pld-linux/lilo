@@ -5,12 +5,11 @@ Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych.
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	0.21
-Release:	2
+Release:	3
 Copyright:	MIT
 Group:		Utilities/System 
 Group(pl):	Narzêdzia/System 
-URL:		ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/
-Source0:	%{name}-21.tar.gz
+Source0:	ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-21.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
 Exclusivearch:	i386
@@ -55,7 +54,7 @@ touch $RPM_BUILD_ROOT/etc/lilo.conf
 install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/man8
 install %{SOURCE2} $RPM_BUILD_ROOT/usr/man/man5
 
-bzip2 -9 README CHANGES INCOMPAT QuickInst
+bzip2 -9 README CHANGES INCOMPAT
 gzip -9fn $RPM_BUILD_ROOT/usr/man/man[58]/*
 
 %clean
@@ -66,14 +65,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {README,CHANGES,INCOMPAT,QuickInst}.bz2
+%doc {README,CHANGES,INCOMPAT}.bz2 QuickInst
 
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640,root,root) /boot/*.b
 %attr(755,root,root) /sbin/lilo
-%attr(644,root, man) /usr/man/man[58]/*
+/usr/man/man[58]/*
 
 %changelog
+* Wed Mar 12 1999 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [0.21-3]
+- do not compress QuickInst,
+- removed man group from man pages.
+
 * Sat Mar 06 1999 Wojtek ¦lusarczyk <wojtek@shadow.eu.org>
 - added Group(pl),
 - commpressed man pages && documentation (QuickInst script too ..),
