@@ -7,7 +7,7 @@ Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	22.0.2
-Release:	2
+Release:	3
 Epoch:		1
 License:	MIT
 Group:		Applications/System
