@@ -10,7 +10,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.5.8
-Release:	2
+Release:	3
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -22,6 +22,7 @@ Source3:	%{name}_functions.sh
 Source4:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source4-md5:	5d93c6c01175d2e701ca77de16368a62
 Source5:	%{name}-pldblue.bmp
+Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 BuildRequires:	bin86 >= 0.15
@@ -102,6 +103,7 @@ install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 install %{SOURCE5} $RPM_BUILD_ROOT/boot
+install %{SOURCE6} $RPM_BUILD_ROOT/boot
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -118,6 +120,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 /etc/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(640,root,root) /boot/lilo-pldblue.bmp
+%attr(640,root,root) /boot/lilo-pldblue8.bmp
 %attr(755,root,root) /sbin/lilo
 %attr(755,root,root) /sbin/mkrescue
 %{_mandir}/man[58]/*
