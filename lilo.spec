@@ -13,7 +13,7 @@ Source0:	ftp://sd.dynhost.com/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
 Exclusivearch:	%{ix86}
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Lilo is repsonsible for loading your linux kernel from either a floppy
