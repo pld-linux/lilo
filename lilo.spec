@@ -4,7 +4,7 @@ Summary(fr):	Chargeur de boot pour Linux et autres systèmes d'exploitation
 Summary(pl):	Boot Loader dla Linuxa i innych systemów operacyjnych
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
-Version:	21.7.5
+Version:	22.0
 Release:	1
 Epoch:		1
 License:	MIT
@@ -12,10 +12,8 @@ Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
 Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
-Source1:	%{name}.8
-Source2:	%{name}.conf.5
-Patch0:		%{name}-no-boot.patch
-Patch1:		%{name}-opt.patch
+Source1:	%{name}-pldblack.bmp
+Patch0:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
 Exclusivearch:	%{ix86}
@@ -48,7 +46,6 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__make} OPTIMIZE="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
@@ -61,8 +58,7 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man{5,8}}
 
 touch $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man8
-install %{SOURCE2} $RPM_BUILD_ROOT%{_mandir}/man5
+install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
 gzip -9nf README CHANGES INCOMPAT
 
@@ -83,6 +79,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) /boot/chain.b
 %attr(640,root,root) /boot/os2_d.b
 %attr(640,root,root) /boot/boot-*.b
+%attr(640,root,root) /boot/mbr.b
+%attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(640,root,root) %config(noreplace) %verify(not link) /boot/boot.b
 %attr(755,root,root) /sbin/lilo
 %{_mandir}/man[58]/*
