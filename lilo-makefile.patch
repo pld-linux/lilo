@@ -1,0 +1,12 @@
+--- lilo-22.6/Makefile.orig	2004-09-02 20:06:27.000000000 +0200
++++ lilo-22.6/Makefile	2004-09-03 12:18:15.000000000 +0200
+@@ -72,8 +72,7 @@
+ #	elif [ -f /usr/bin/manpath ]; then \
+ #  manpath | sed "s/:.*//"; else echo /usr/man; fi`
+ #
+-MAN_DIR=`if [ -f /usr/bin/manpath ]; then \
+-	manpath | sed "s/:.*//"; else echo /usr/man; fi`
++MAN_DIR=/usr/share/man
+ BUILTIN=1
+ 
+ PCONFIG=$(KVER) $(LILO) `( if [ -r $$ROOT/etc/lilo.defines ]; then \

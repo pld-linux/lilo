@@ -1,0 +1,306 @@
+diff -urN lilo-orig/geometry.c lilo-22.6/geometry.c
+--- lilo-orig/geometry.c	2004-11-04 11:55:36.456154440 +0100
++++ lilo-22.6/geometry.c	2004-11-04 12:00:18.087339992 +0100
+@@ -27,6 +27,10 @@
+ 
+ #include <string.h>
+ 
++#ifdef LCF_DEVMAPPER
++#include <libdevmapper.h>
++#endif
++
+ #include "config.h"
+ #include "lilo.h"
+ #include "common.h"
+@@ -61,6 +65,17 @@
+ #endif
+ #endif
+ 
++#ifdef LCF_DEVMAPPER
++typedef struct _dm_target {
++    struct _dm_target *next;
++    uint64_t start,length,offset;
++    int device;
++} DM_TARGET;
++
++int dm_major_list[16];
++int dm_major_nr = 0;
++#endif
++
+ #ifdef LCF_LVM
+ struct lv_bmap {
+     __u32 lv_block;
+@@ -118,6 +133,10 @@
+ {
+     FILE *file;
+     char line[MAX_LINE+1];
++#ifdef LCF_DEVMAPPER
++    char major_name[32];
++    int major;
++#endif
+     char *here;
+     DT_ENTRY *entry;
+     int disk_section,items;
+@@ -126,29 +145,52 @@
+ 	if ((file = fopen(name,"r")) == NULL)
+ 	    die("open %s: %s",name,strerror(errno));
+     }
+-    else if ((file = fopen(DFL_DISKTAB,"r")) == NULL) return;
+-    disk_section = !!disktab;
+-    while (fgets(line,MAX_LINE,file)) {
+-	here = strchr(line,'\n');
+-	if (here) *here = 0;
+-	here = strchr(line,'#');
+-	if (here) *here = 0;
+-	if (strspn(line," \t") != strlen(line)) {
+-	    entry = alloc_t(DT_ENTRY);
+-	    items = sscanf(line,"0x%x 0x%x %d %d %d %d",&entry->device,
+-	      &entry->bios,&entry->sectors,&entry->heads,&entry->cylinders,
+-	      &entry->start);
+-	    if (items == 5) entry->start = -1;
+-	    if (items < 5)
+-		die("Invalid line in %s:\n\"%s\"",name ? name : DFL_DISKTAB,
+-		  line);
+-	    entry->next = disktab;
+-	    disktab = entry;
+-	    if (disk_section) die("DISKTAB and DISK are mutually exclusive");
+-	    old_disktab = 1;
++    if (name || (file = fopen(DFL_DISKTAB,"r")) != NULL) {
++       disk_section = !!disktab;
++       while (fgets(line,MAX_LINE,file)) {
++           here = strchr(line,'\n');
++           if (here) *here = 0;
++           here = strchr(line,'#');
++           if (here) *here = 0;
++           if (strspn(line," \t") != strlen(line)) {
++               entry = alloc_t(DT_ENTRY);
++               items = sscanf(line,"0x%x 0x%x %d %d %d %d",&entry->device,
++                 &entry->bios,&entry->sectors,&entry->heads,&entry->cylinders,
++                 &entry->start);
++               if (items == 5) entry->start = -1;
++               if (items < 5)
++                   die("Invalid line in %s:\n\"%s\"",name ? name : DFL_DISKTAB,
++                     line);
++               entry->next = disktab;
++               disktab = entry;
++               if (disk_section) die("DISKTAB and DISK are mutually exclusive");
++               old_disktab = 1;
++           }
++       }
++       (void) fclose(file);
++    }
++
++#ifdef LCF_DEVMAPPER
++    dm_major_nr = 0;
++    file = fopen("/proc/devices", "r");
++    if (!file) return;
++
++    do {
++       if (!fgets(line, (sizeof line)-1, file)) {
++           (void) fclose(file);
++           return;
+ 	}
++       line[(sizeof line)-1] = 0;
++    } while(strncmp(line, "Block", 5) != 0);
++
++    while(fgets(line, (sizeof line)-1, file)) {
++       if (sscanf(line, "%d %31s\n", &major, major_name) != 2) continue;
++       if (strcmp(major_name, "device-mapper") != 0) continue;
++       dm_major_list[dm_major_nr] = major;
++       if (++dm_major_nr > (sizeof dm_major_list)/(sizeof dm_major_list[0])) break;
+     }
+     (void) fclose(file);
++#endif
+ }
+ 
+ 
+@@ -779,7 +821,14 @@
+ {
+     DT_ENTRY *walk;
+     int inherited,keep_cyls,is_raid=0;
+-
++    
++    int i;
++    int major_disk,minor_disk;
++    struct dm_task *dms,*dml;
++    struct dm_names *names,*begin;
++    unsigned next=0,found=0;
++    uint64_t start,number_of_sectors;    
++    
+     if (verbose>=5) printf("geo_get: device %04X, all=%d\n", device, all);
+ #ifdef LCF_LVM
+     /*
+@@ -881,6 +930,122 @@
+ 	close(md_fd);
+     }
+ 
++    
++    for(i = 0; i < dm_major_nr; i++)
++       if (MAJOR(device) == dm_major_list[i])  {
++           if (!(dml = dm_task_create(DM_DEVICE_LIST)))
++               die("device-mapper: dm_task_create(DM_DEVICE_LIST) failed");
++
++           if (!dm_task_run(dml)) {
++               dm_task_destroy(dml);
++               die("device-mapper: dm_task_run(DM_DEVICE_TABLE) failed");
++           }
++               
++           if (!(names = dm_task_get_names(dml))) {
++               dm_task_destroy(dml);
++               die("device-mapper: dm_task_set_names failed");
++           }
++               
++           if (!names->dev) {
++               dm_task_destroy(dml);
++               die("not any info about mappings in the Device Mapper table => Can't handle device (dev 0x%04x).",device);
++           }
++
++           /* We have a list with devices, lets look which one is actually the device we want to query */
++           begin=names;
++           do {
++               char *params;
++               uint64_t length;
++               char *target_type = NULL;
++
++               names = (void *) names + next;
++               if (MAJOR(names->dev) == MAJOR(device) &&
++               MINOR(names->dev) == MINOR(device)) {
++                   found = 1; /* Yes, this is the one */
++                   if (!(dms = dm_task_create(DM_DEVICE_TABLE))) 
++                       die("device-mapper: dm_task_create(DM_DEVICE_TABLE) failed");
++
++                   if (!dm_task_set_name(dms, names->name)) {
++                       dm_task_destroy(dms);
++                       die("device-mapper: dm_task_set_name(\"%s\") failed",names->name);                              
++                   }
++                       
++                   if (!dm_task_run(dms)) {
++                       dm_task_destroy(dms);
++                       die("device-mapper: dm_task_run(DM_DEVICE_TABLE) failed");
++                   }
++                         
++                   /* fetch the partition offset in sectors */
++                   dm_get_next_target(dms, NULL, &start, &length, &target_type, &params);
++
++                   /* and look for the RAID mapping to which this partition belongs */
++                   if(strcmp(target_type, "linear")!=0) {
++                       /* a partition shouldn't be striped or mirrored, this must be the RAID Mapping */
++                       major_disk=MAJOR(names->dev);
++                       minor_disk=MINOR(names->dev);
++                   } 
++                       
++                   else if (!sscanf(params, "%d:%d %"PRIu64, &major_disk, &minor_disk, &start)) {
++                       dm_task_destroy(dms);
++                       die("device-mapper: parse error in linear params (\"%s\")", params);
++                   }
++                   /* we now know this is a partition at $start sectors on the RAID mapping with $major_disk and $minor_disk  */
++                   dm_task_destroy(dms);
++               }
++
++               if (!(next = names->next) && !found) {
++                       dm_task_destroy(dml);
++                       die("no info about device in Device Mapper table => Can't handle device (dev 0x%04x).", device);
++               }
++           } while (!found);
++
++           /* Lets get the number_of_sectors of the RAID mapping */
++           names = begin;
++           next = 0;
++           found = 0;
++           do {
++               char *params;
++               char *target_type = NULL;
++               uint64_t dontgive;
++
++               names = (void *) names + next;
++               if ((MAJOR(names->dev) == major_disk) &&
++               MINOR(names->dev) == minor_disk) {
++                   found = 1; /* Yes, this is the disk */
++                   if (!(dms = dm_task_create(DM_DEVICE_TABLE))) {
++                       die("device-mapper: dm_task_create(DM_DEVICE_TABLE) failed");
++                   }
++
++                   if (!dm_task_set_name(dms, names->name)) {
++                       dm_task_destroy(dms);
++                       die("device-mapper: dm_task_set_name(\"%s\") failed",names->name);                        
++                   }
++                   
++                   if (!dm_task_run(dms)) {
++                       dm_task_destroy(dms);
++                       die("device-mapper: dm_task_run(DM_DEVICE_TABLE) failed");
++                   }
++                         
++                   /* and this way we have found the number_of_sectors */
++                   dm_get_next_target(dms, NULL, &dontgive, &number_of_sectors, &target_type, &params);
++                   dm_task_destroy(dms);
++               }
++
++               if(!(next=names->next) && !found) {
++                   dm_task_destroy(dml);
++                   die("Failed to lookup RAID mapping info. Device suddenly disappeared from device table?");
++               }
++           } while (!found);
++
++           dm_task_destroy(dml);
++
++           geo->device = 0x80; /* Maybe you want to override this by a bios= section in the configuration.  */
++           geo->heads = 255;   /* Let's hope we are using lineair or lba32 OR let's hope we guess correctly */
++           geo->sectors = 63;  /* Let's hope we are using lineair or lba32 OR let's hope we guess correctly */
++           geo->cylinders = number_of_sectors/(geo->heads * geo->sectors);
++           geo->start = start;
++       }
++
+ #if BETA_TEST
+ 	if (verbose>=5) printf("geo_get(2):  device=%04X, all=%d\n", device, all);
+ #endif
+@@ -899,7 +1064,7 @@
+ #endif
+     if (inherited)
+ 	for (walk = disktab; walk; walk = walk->next)
+-	    if (walk->device == (device & D_MASK(device))) break;
++           if ( (walk->device == (device & D_MASK(device))) || (found && MAJOR(walk->device)==MAJOR(device) ) ) break;
+ #if BETA_TEST
+     if (verbose>=5) printf("walk=%08lx\n", (long)walk);
+ #endif
+@@ -920,7 +1085,7 @@
+ 
+ #if 1
+ /* add 'all' to conditional below -- JRC 2002-08-20 */
+-    if (keep_cyls && (all || MAJOR(device)==MAJOR_FD) ) {
++    if (keep_cyls && (all || MAJOR(device)==MAJOR_FD) && !found ) {
+ #else
+ /* Werner's original conditional */
+     if (keep_cyls) {
+diff -urN lilo-orig/Makefile lilo-22.6/Makefile
+--- lilo-orig/Makefile	2004-11-04 11:55:36.451155200 +0100
++++ lilo-22.6/Makefile	2004-11-04 12:01:02.984514584 +0100
+@@ -53,7 +53,7 @@
+ #   XL_SECS=n	  Support for extra large (non-standard) floppies.
+ 
+ CONFIG=-DBDATA -DDSECS=3 -DEVMS -DIGNORECASE -DLVM -DONE_SHOT -DPASS160 \
+-   -DREISERFS -DREWRITE_TABLE -DSOLO_CHAIN -DVERSION -DVIRTUAL
++   -DREISERFS -DREWRITE_TABLE -DSOLO_CHAIN -DVERSION -DVIRTUAL -DDEVMAPPER
+ 
+ # set the compiler optimization level
+ 
+@@ -94,6 +94,8 @@
+ LDFLAGS=#-Xlinker -qmagic
+ LIBS=
+ 
++DEVMAPPER=-ldevmapper
++
+ OBJS=lilo.o raid.o map.o geometry.o boot.o device.o common.o bsect.o cfg.o \
+   partition.o identify.o probe.o shs2.o edit.o temp.o
+ 
+@@ -269,7 +271,11 @@
+ 		cp -p dparam.S dparam.s
+ 
+ lilo:		$(OBJS)
++ifneq (,$(findstring DEVMAPPER,$(CONFIG)))
++		$(CC) -o lilo $(LDFLAGS) $(OBJS) $(LIBS) $(DEVMAPPER)
++else
+ 		$(CC) -o lilo $(LDFLAGS) $(OBJS) $(LIBS)
++endif
+ 
+ lilo-static:	$(OBJS)
+ 		$(CC) -o lilo-static -static $(LDFLAGS) $(OBJS) $(LIBS)
