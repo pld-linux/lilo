@@ -37,9 +37,9 @@ read-only
 		echo "# bitmap!"
 		echo "install = /boot/boot-bmp.b"
 		echo "bitmap = $LILO_BMP"
-		echo "bmp-colors = $LILO_BMP_COLORS"
-		echo "bmp-table = $LILO_BMP_TABLE"
-		echo "bmp-timer = $LILO_BMP_TIMER"
+		[ -z $LILO_BMP_COLORS ] || echo "bmp-colors = $LILO_BMP_COLORS"
+		[ -z $LILO_BMP_TABLE ] || echo "bmp-table = $LILO_BMP_TABLE"
+		[ -z $LILO_BMP_TIMER ] || echo "bmp-timer = $LILO_BMP_TIMER"
 		echo "# flags:"
 	fi
  

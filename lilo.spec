@@ -10,7 +10,7 @@ Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
 Version:	22.5.8
-Release:	3
+Release:	4
 Epoch:		2
 License:	BSD
 Group:		Applications/System
