@@ -20,7 +20,7 @@ Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
 # Source4-md5:	5d93c6c01175d2e701ca77de16368a62
-Source4:	%{name}-non-english-man-pages.tar.bz2
+Source4:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 BuildRequires:	bin86 >= 0.15
