@@ -85,14 +85,14 @@ OS/2.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/sysconfig/rc-boot,%{_mandir}/man{5,8}}
+install -d $RPM_BUILD_ROOT{/etc/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
 %{__make} install ROOT=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
 # driver for rc-boot
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
@@ -111,7 +111,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
-%{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
+/etc/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
 %attr(755,root,root) /sbin/lilo
 %attr(755,root,root) /sbin/mkrescue
