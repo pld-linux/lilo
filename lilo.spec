@@ -12,7 +12,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.6
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -36,7 +36,7 @@ URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 #BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} amd64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
