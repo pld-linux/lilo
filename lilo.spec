@@ -15,7 +15,8 @@ Epoch:		2
 License:	BSD
 Group:		Applications/System
 #Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
+#Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
+Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/obsolete/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
