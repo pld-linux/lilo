@@ -12,7 +12,7 @@ Group(pl):	Narzêdzia/System
 Source0:	ftp://sd.dynhost.com/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	lilo.8
 Source2:	lilo.conf.5
-BuildRequires:	dev86
+BuildRequires:	bin86 >= 0.15
 Exclusivearch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
