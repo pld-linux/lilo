@@ -11,13 +11,13 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.6
-Release:	2.1
+Version:	22.6.1
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
-# Source0-md5:	ae9665536347d9cc92e0ebd473a9ac6b
+Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
+# Source0-md5:	18473e10859767b8af5d08aa7d9fe1e7
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -119,7 +119,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/boot
 install %{SOURCE5} $RPM_BUILD_ROOT/boot
 install %{SOURCE6} $RPM_BUILD_ROOT/boot
 
-touch $RPM_BUILD_ROOT/etc/disktab
+touch $RPM_BUILD_ROOT%{_sysconfdir}/disktab
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -133,7 +133,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
-%attr(600,root,root) %config(noreplace,missingok) %verify(not size mtime md5) /etc/disktab
+%attr(600,root,root) %config(noreplace,missingok) %verify(not size mtime md5) %{_sysconfdir}/disktab
 /etc/sysconfig/rc-boot/%{name}_functions.sh
 /boot/diag1.img
 /boot/lilo-pldblack.bmp
