@@ -34,8 +34,8 @@ Patch5:		%{name}-pagesize.patch
 #Patch6:		http://www.saout.de/misc/%{name}-22.6-devmapper.patch
 Patch6:		%{name}-dmraid.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
-#BuildRequires:	device-mapper-devel
 BuildRequires:	bin86 >= 0.15
+BuildRequires:	device-mapper-devel
 Provides:	bootloader
 ExclusiveArch:	%{ix86} amd64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
