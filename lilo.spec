@@ -9,7 +9,7 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Name:		lilo
 Version:	22.3
-Release:	3
+Release:	2
 Epoch:		1
 License:	BSD
 Group:		Applications/System
@@ -93,7 +93,6 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
-install boot-*.b $RPM_BUILD_ROOT/boot
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -114,7 +113,6 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
 %{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/lilo-pldblack.bmp
-%attr(640,root,root) /boot/boot-*.b
 %attr(755,root,root) /sbin/lilo
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
