@@ -53,7 +53,7 @@ türevleri, DOS ve OS/2 sayýlabilir.
 %patch2 -p0
 
 %build
-%{__make} OPTIMIZE="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}" LDFLAGS="%{!?debug:-s}"
+%{__make} OPTIMIZE="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS}" LDFLAGS="%{!?debug:-s}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
