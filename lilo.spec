@@ -7,7 +7,7 @@ Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
 Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	22.0.2
-Release:	1
+Release:	2
 Epoch:		1
 License:	MIT
 Group:		Applications/System
@@ -16,6 +16,7 @@ Group(pl):	Aplikacje/System
 Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
+Source3:	%{name}_functions.sh
 Patch0:		%{name}-makefile.patch
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
@@ -67,11 +68,14 @@ türevleri, DOS ve OS/2 sayýlabilir.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_mandir}/man{5,8}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
 %{__make} install ROOT=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
+
+# driver for rc-boot
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
 
@@ -84,13 +88,13 @@ rm -rf $RPM_BUILD_ROOT
 #if [ -s %{_sysconfdir}/lilo.conf]; then
 #	/sbin/lilo
 #fi
-[ ! -r /etc/sysconfig/rc-boot/lilo_functions.sh ] || ln -sf /etc/sysconfig/rc-boot/lilo_functions.sh /etc/sysconfig/rc-boot/functions.sh
 echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 %files
 %defattr(644,root,root,755)
 %doc *.gz QuickInst
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*
+%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
+%{_sysconfdir}/sysconfig/rc-boot/%{name}_functions.sh
 %attr(640,root,root) /boot/chain.b
 %attr(640,root,root) /boot/os2_d.b
 %attr(640,root,root) /boot/boot-*.b
