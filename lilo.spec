@@ -5,10 +5,12 @@ Summary(pl): Boot Loader dla Linuxa i innych systemów operacyjnych.
 Summary(tr): Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:        lilo
 Version:     0.20
-Release:     3
+Release:     4
 Copyright:   MIT
 Group:       Utilities/System 
-Source:      ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-20.tar.gz
+Source0:     ftp://sunsite.unc.edu/pub/Linux/system/boot/lilo/%{name}-20.tar.gz
+Source1:     lilo.8
+Source2:     lilo.conf.5
 Exclusivearch: i386
 Buildroot:   /tmp/%{name}-%{version}-root
 
@@ -42,11 +44,14 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{etc,usr}
+install -d $RPM_BUILD_ROOT/{etc,usr/man/man{5,8}}
 
 make install ROOT=$RPM_BUILD_ROOT
 
 touch $RPM_BUILD_ROOT/etc/lilo.conf
+
+install %{SOURCE1} $RPM_BUILD_ROOT/usr/man/man8
+install %{SOURCE2} $RPM_BUILD_ROOT/usr/man/man5
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,12 +61,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root,755)
-%doc README CHANGES INCOMPAT QuickInst doc/*
+%doc README CHANGES INCOMPAT QuickInst
 %attr(640, root, root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640, root, root) /boot/*.b
 %attr(750, root, root) /sbin/lilo
+%attr(644, root,  man) /usr/man/man[58]/*
 
 %changelog
+* Sat Dec  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+  [0.20-4]
+- removed doc/* from %doc,
+- added lilo(8) and lilo.conf(5) man pages (moved from man-pages
+  package).
+
 * Sun Nov  8 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [0.20-3]
 - changed permission of lilo to 750,
