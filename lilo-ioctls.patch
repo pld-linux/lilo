@@ -1,5 +1,5 @@
---- lilo-22.5.8/geometry.c.orig	Fri Oct 10 01:59:07 2003
-+++ lilo-22.5.8/geometry.c	Tue Feb  3 11:58:10 2004
+--- lilo-22.6/geometry.c.orig	Fri Oct 10 01:59:07 2003
++++ lilo-22.6/geometry.c	Tue Feb  3 11:58:10 2004
 @@ -66,11 +66,14 @@
      __u16 lv_dev;
  };
@@ -8,11 +8,11 @@
 + * to be bug-compatible we must use "int" (as sizeof(1)==sizeof(int))
 + */
  #ifndef LV_BMAP
--#define LV_BMAP				_IOWR(0xfe, 0x30, 1)
+-#define LV_BMAP				_IOWR(0xfe, 0x30, char)
 +#define LV_BMAP				_IOWR(0xfe, 0x30, int)
  #endif
  #ifndef LVM_GET_IOP_VERSION
--#define LVM_GET_IOP_VERSION		_IOR(0xfe, 0x98, 1)
+-#define LVM_GET_IOP_VERSION		_IOR(0xfe, 0x98, char)
 +#define LVM_GET_IOP_VERSION		_IOR(0xfe, 0x98, int)
  #endif
  #endif

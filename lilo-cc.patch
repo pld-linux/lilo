@@ -1,6 +1,5 @@
-diff -urN aa/lilo-22.5.8/diagnose/Makefile lilo-22.5.8/diagnose/Makefile
---- aa/lilo-22.5.8/diagnose/Makefile	2003-03-10 23:35:14.000000000 +0100
-+++ lilo-22.5.8/diagnose/Makefile	2004-02-03 13:06:47.790986632 +0100
+--- lilo-22.6/diagnose/Makefile.orig	2004-08-28 23:06:01.000000000 +0200
++++ lilo-22.6/diagnose/Makefile	2004-09-03 12:24:31.000000000 +0200
 @@ -1,11 +1,11 @@
  # Makefile for BCC tests
  #
@@ -8,7 +7,7 @@ diff -urN aa/lilo-22.5.8/diagnose/Makefile lilo-22.5.8/diagnose/Makefile
 -CC = bcc -M$(MODEL)
 +BCC = bcc -M$(MODEL)
  CPP = gcc -E
- CINCL = /usr/lib/bcc/include/
+ CINCL = /usr/lib/bcc/include
  AS = as86
 -LINK = $(CC) -v
 +LINK = $(BCC) -v
