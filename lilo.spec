@@ -62,12 +62,15 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644, root, root,755)
 %doc README CHANGES INCOMPAT QuickInst
-%attr(640, root, root) %config(noreplace) %verify(not size mtime md5) /etc/*
+%attr(600, root, root) %config(noreplace) %verify(not size mtime md5) /etc/*
 %attr(640, root, root) /boot/*.b
 %attr(750, root, root) /sbin/lilo
 %attr(644, root,  man) /usr/man/man[58]/*
 
 %changelog
+* Fri Mar  5 1999 Jacek Smyda <smyda@posexperts.com.pl>
+- change permission for lilo.conf
+
 * Sat Dec  7 1998 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
   [0.20-4]
 - removed doc/* from %doc,
