@@ -6,6 +6,7 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Name:		lilo
 Version:	21.6
 Release:	1
+Epoch:		1
 License:	MIT
 Group:		Applications/System
 Group(de):	Applikationen/System
