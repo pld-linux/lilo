@@ -1,0 +1,20 @@
+--- lilo-22.5.8/boot.c.orig	Wed Oct  8 22:10:34 2003
++++ lilo-22.5.8/boot.c	Tue Feb  3 12:03:39 2004
+@@ -19,6 +19,7 @@
+ #include <errno.h>
+ #include <a.out.h>
+ #include <sys/stat.h>
++#include <asm/page.h>	/* for PAGE_SIZE */
+ 
+ #include "config.h"
+ #include "lilo.h"
+--- lilo-22.5.8/partition.c.orig	Fri Aug 15 06:00:43 2003
++++ lilo-22.5.8/partition.c	Tue Feb  3 12:04:25 2004
+@@ -24,6 +24,7 @@
+ #include <limits.h>
+ /*#include <linux/fs.h>*/
+ #include <time.h>
++#include <asm/page.h>	/* for PAGE_SIZE */
+ #include "config.h"
+ #include "lilo.h"
+ #include "common.h"
