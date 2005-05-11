@@ -37,7 +37,7 @@ URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 Provides:	bootloader
-ExclusiveArch:	%{ix86} amd64
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
