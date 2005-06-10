@@ -9,23 +9,30 @@ Summary(tr):	Linux ve diger iþletim sistemleri için sistem yükleyici
 Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
-Version:	22.5.2
+Version:	22.7
 Release:	2
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-#Source0:	ftp://brun.dyndns.org/pub/linux/lilo/%{name}-%{version}.tar.gz
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.tar.gz
+Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
+# Source0-md5:	565cda4cd5e7c740403ed91e0bdf15f6
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
-Source4:	%{name}-non-english-man-pages.tar.bz2
+Source4:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+# Source4-md5:	5d93c6c01175d2e701ca77de16368a62
+Source5:	%{name}-pldblue.bmp
+Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
+Patch2:		%{name}-ioctls.patch
+Patch3:		%{name}-cc.patch
+Patch4:		%{name}-doc-fallback.patch
+Patch5:		%{name}-pagesize.patch
+URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
-BuildRequires:	nasm
 Provides:	bootloader
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -79,15 +86,24 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
-%{__make} CC="%{__cc}" OPT="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+sed -i -e 's#/usr/bin/bcc#/nonexistant/file#g' Makefile*
+%{__make} \
+	CC="%{__cc}" \
+	OPT="%{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
-%{__make} install ROOT=$RPM_BUILD_ROOT
+%{__make} install \
+	 ROOT=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
@@ -95,6 +111,10 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/rc-boot
 
 install %{SOURCE1} $RPM_BUILD_ROOT/boot
+install %{SOURCE5} $RPM_BUILD_ROOT/boot
+install %{SOURCE6} $RPM_BUILD_ROOT/boot
+
+touch $RPM_BUILD_ROOT%{_sysconfdir}/disktab
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -102,17 +122,18 @@ bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-#if [ -s %{_sysconfdir}/lilo.conf]; then
-#	/sbin/lilo
-#fi
 echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 %files
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
+%attr(600,root,root) %config(noreplace,missingok) %verify(not size mtime md5) %{_sysconfdir}/disktab
 /etc/sysconfig/rc-boot/%{name}_functions.sh
-%attr(640,root,root) /boot/lilo-pldblack.bmp
+/boot/diag1.img
+/boot/lilo-pldblack.bmp
+/boot/lilo-pldblue.bmp
+/boot/lilo-pldblue8.bmp
 %attr(755,root,root) /sbin/lilo
 %attr(755,root,root) /sbin/mkrescue
 %{_mandir}/man[58]/*
