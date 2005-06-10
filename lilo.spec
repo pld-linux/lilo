@@ -32,7 +32,7 @@ Patch5:		%{name}-pagesize.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 Provides:	bootloader
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
