@@ -36,9 +36,12 @@ Patch6:		%{name}-dmraid.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
+BuildRequires:	sed >= 4.0
 Provides:	bootloader
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_sbindir	/sbin
 
 %description
 Lilo is repsonsible for loading your linux kernel from either a floppy
@@ -140,8 +143,8 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 /boot/lilo-pldblack.bmp
 /boot/lilo-pldblue.bmp
 /boot/lilo-pldblue8.bmp
-%attr(755,root,root) /sbin/lilo
-%attr(755,root,root) /sbin/mkrescue
+%attr(755,root,root) %{_sbindir}/lilo
+%attr(755,root,root) %{_sbindir}/mkrescue
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
 %lang(de) %{_mandir}/de/man[58]/*
