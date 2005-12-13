@@ -136,8 +136,8 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %files
 %defattr(644,root,root,755)
 %doc README* CHANGES INCOMPAT QuickInst
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}.conf
-%attr(600,root,root) %config(noreplace,missingok) %verify(not size mtime md5) %{_sysconfdir}/disktab
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.conf
+%attr(600,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) %{_sysconfdir}/disktab
 /etc/sysconfig/rc-boot/%{name}_functions.sh
 /boot/diag1.img
 /boot/lilo-pldblack.bmp
