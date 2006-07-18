@@ -11,13 +11,13 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.7.1
-Release:	2
+Version:	22.7.2
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
-# Source0-md5:	1f3855c6f2c7b2beaa8a90bf9975a289
+# Source0-md5:	2bf1eb08c449a28ebadcf66c48a26567
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
