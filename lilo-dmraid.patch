@@ -271,19 +271,18 @@ diff -urN lilo-orig/geometry.c lilo-22.6/geometry.c
  #else
  /* Werner's original conditional */
      if (keep_cyls) {
-diff -urN lilo-orig/Makefile lilo-22.6/Makefile
---- lilo-orig/Makefile	2004-11-04 11:55:36.451155200 +0100
-+++ lilo-22.6/Makefile	2004-11-04 12:01:02.984514584 +0100
-@@ -53,7 +53,7 @@
- #   XL_SECS=n	  Support for extra large (non-standard) floppies.
+--- lilo-22.7.2/Makefile.orig	2006-07-18 14:08:17.584440000 +0200
++++ lilo-22.7.2/Makefile	2006-07-18 14:09:42.544440000 +0200
+@@ -65,7 +65,7 @@
  
- CONFIG=-DBDATA -DDSECS=3 -DEVMS -DIGNORECASE -DLVM -DONE_SHOT -DPASS160 \
--   -DREISERFS -DREWRITE_TABLE -DSOLO_CHAIN -DVERSION -DVIRTUAL
-+   -DREISERFS -DREWRITE_TABLE -DSOLO_CHAIN -DVERSION -DVIRTUAL -DDEVMAPPER
+ CONFIG=-DBDATA -DDSECS=3 -DEVMS -DIGNORECASE -DLVM -DNOKEYBOARD -DONE_SHOT \
+    -DPASS160 -DREISERFS -DREWRITE_TABLE -DSOLO_CHAIN -DVERSION -DVIRTUAL \
+-   -DATARAID -DMDPRAID
++   -DATARAID -DMDPRAID -DDEVMAPPER
  
  # set the compiler optimization level
  
-@@ -94,6 +94,8 @@
+@@ -108,6 +108,8 @@
  LDFLAGS=#-Xlinker -qmagic
  LIBS=
  
@@ -292,7 +291,7 @@ diff -urN lilo-orig/Makefile lilo-22.6/Makefile
  OBJS=lilo.o raid.o map.o geometry.o boot.o device.o common.o bsect.o cfg.o \
    partition.o identify.o probe.o shs2.o edit.o temp.o
  
-@@ -269,7 +271,11 @@
+@@ -345,7 +347,11 @@
  		cp -p dparam.S dparam.s
  
  lilo:		$(OBJS)
@@ -302,5 +301,5 @@ diff -urN lilo-orig/Makefile lilo-22.6/Makefile
  		$(CC) -o lilo $(LDFLAGS) $(OBJS) $(LIBS)
 +endif
  
- lilo-static:	$(OBJS)
- 		$(CC) -o lilo-static -static $(LDFLAGS) $(OBJS) $(LIBS)
+ lilo.static:	$(OBJS)
+ 		$(CC) -o lilo.static -static $(LDFLAGS) $(OBJS) $(LIBS)
