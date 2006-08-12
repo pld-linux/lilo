@@ -11,8 +11,8 @@ Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
 Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
 Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
 Name:		lilo
-Version:	22.7.2
-Release:	1
+Version:	22.7.3
+Release:	0.1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -28,7 +28,6 @@ Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 Patch2:		%{name}-ioctls.patch
-Patch3:		%{name}-cc.patch
 Patch4:		%{name}-doc-fallback.patch
 Patch5:		%{name}-pagesize.patch
 #Patch6:		http://www.saout.de/misc/%{name}-22.6-devmapper.patch
@@ -95,10 +94,10 @@ OS/2.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
+# FIXME
+# %patch6 -p1
 
 %build
 sed -i -e 's#/usr/bin/bcc#/nonexistant/file#g' Makefile*
