@@ -12,12 +12,12 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.7.3
-Release:	0.1
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
-# Source0-md5:	2bf1eb08c449a28ebadcf66c48a26567
+# Source0-md5:	a3aacf90482e0c07492623042b901503
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -28,10 +28,9 @@ Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
 Patch2:		%{name}-ioctls.patch
+Patch3:		%{name}-cc.patch
 Patch4:		%{name}-doc-fallback.patch
 Patch5:		%{name}-pagesize.patch
-#Patch6:		http://www.saout.de/misc/%{name}-22.6-devmapper.patch
-Patch6:		%{name}-dmraid.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -94,16 +93,15 @@ OS/2.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %patch4 -p1
 %patch5 -p1
-# FIXME
-# %patch6 -p1
 
 %build
-sed -i -e 's#/usr/bin/bcc#/nonexistant/file#g' Makefile*
-%{__make} \
+sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
+%{__make} all \
 	CC="%{__cc}" \
-	OPT="%{rpmcflags}" \
+	OPT="%{rpmcflags} -DLCF_DEVMAPPER" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
