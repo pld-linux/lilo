@@ -1,0 +1,21 @@
+diff -urN lilo-22.7.3.org/device.c lilo-22.7.3/device.c
+--- lilo-22.7.3.org/device.c	2006-07-06 03:33:46.000000000 +0200
++++ lilo-22.7.3/device.c	2006-09-20 00:05:13.000000000 +0200
+@@ -1028,7 +1028,7 @@
+ 		    geo_query_dev(&geo, dev,
+ 		              MAJOR(dev)!=MAJOR_LOOP
+ #ifdef LCF_ATARAID
+-                               && MAJOR(dev)!=MAJOR_DM
++                               && !dm_is_dm_major(MAJOR(dev))
+ #endif
+ 		                                );
+ 
+@@ -1163,7 +1163,7 @@
+       }
+ #endif
+ #ifdef LCF_ATARAID
+-      if ( MAJOR(vm[k].device) == MAJOR_DM ) {
++      if ( dm_is_dm_major(MAJOR(vm[k].device)) ) {
+           if (verbose>=2) printf("ATA-RAID detected,   k=%d\n", k);
+           raidcaution = 1;
+           warn("ATA-RAID controller present;\n"
