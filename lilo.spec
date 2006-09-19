@@ -12,7 +12,7 @@ Summary(uk):	úÁ×ÁÎÔÁÖÕ×ÁÞ ÄÌÑ Linux ÔÁ ¦ÎÛÉÈ ÏÐÅÒÁÃ¦ÊÎÉÈ ÓÉÓÔÅÍ
 Summary(zh_CN):	Linux ºÍÆäËüÏµÍ³µÄÒýµ¼Ä£¿é¡£
 Name:		lilo
 Version:	22.7.3
-Release:	1
+Release:	1.1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -31,6 +31,7 @@ Patch2:		%{name}-ioctls.patch
 Patch3:		%{name}-cc.patch
 Patch4:		%{name}-doc-fallback.patch
 Patch5:		%{name}-pagesize.patch
+Patch6:		%{name}-dm.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -96,6 +97,7 @@ OS/2.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
