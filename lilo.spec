@@ -1,15 +1,15 @@
 # TODO:
 # - pl-manual is really not-up-to-date
 Summary:	Boot loader for Linux and other operating systems
-Summary(de):	Boot-Lader fЭr Linux und andere Betriebssysteme
-Summary(es):	Cargador de arranque para Linux y otros sistemas operativos
-Summary(fr):	Chargeur de boot pour Linux et autres systХmes d'exploitation
-Summary(pl):	Boot Loader dla Linuksa i innych systemСw operacyjnych
-Summary(pt_BR):	Carregador de boot para Linux e outros sistemas operacionais
-Summary(ru):	Загрузчик для Linux и других операционных систем
-Summary(tr):	Linux ve diger iЧletim sistemleri iГin sistem yЭkleyici
-Summary(uk):	Завантажувач для Linux та ╕нших операц╕йних систем
-Summary(zh_CN):	Linux ╨мфДкЭо╣мЁ╣дрЩ╣╪дё©И║ё
+Summary(de.UTF-8):   Boot-Lader fц╪r Linux und andere Betriebssysteme
+Summary(es.UTF-8):   Cargador de arranque para Linux y otros sistemas operativos
+Summary(fr.UTF-8):   Chargeur de boot pour Linux et autres systц╗mes d'exploitation
+Summary(pl.UTF-8):   Boot Loader dla Linuksa i innych systemцЁw operacyjnych
+Summary(pt_BR.UTF-8):   Carregador de boot para Linux e outros sistemas operacionais
+Summary(ru.UTF-8):   п≈п╟пЁя─я┐п╥я┤п╦п╨ п╢п╩я▐ Linux п╦ п╢я─я┐пЁп╦я┘ п╬п©п╣я─п╟я├п╦п╬п╫п╫я▀я┘ я│п╦я│я┌п╣п╪
+Summary(tr.UTF-8):   Linux ve diger iе÷letim sistemleri iц╖in sistem yц╪kleyici
+Summary(uk.UTF-8):   п≈п╟п╡п╟п╫я┌п╟п╤я┐п╡п╟я┤ п╢п╩я▐ Linux я┌п╟ я√п╫я┬п╦я┘ п╬п©п╣я─п╟я├я√п╧п╫п╦я┘ я│п╦я│я┌п╣п╪
+Summary(zh_CN.UTF-8):   Linux Е▓▄Е┘╤Е╝┐ГЁ╩Г╩÷Г └Е╪∙Е╞╪Ф╗║Е²≈Ц─┌
 Name:		lilo
 Version:	22.7.3
 Release:	1.1
@@ -48,45 +48,45 @@ or a hard drive and giving it control of the system. It can also be
 used to boot many other operating sysetms, including the BSD variants,
 DOS, and OS/2.
 
-%description -l de
-Lilo ist zustДndig fЭr das Laden des Linux-Kernels, entweder von einer
-Diskette oder einer Festplatte, und Эbergibt diesem dann die Kontrolle
-Эber das System. Es kann auch benutzt werden, um viele andere
+%description -l de.UTF-8
+Lilo ist zustц╓ndig fц╪r das Laden des Linux-Kernels, entweder von einer
+Diskette oder einer Festplatte, und ц╪bergibt diesem dann die Kontrolle
+ц╪ber das System. Es kann auch benutzt werden, um viele andere
 Betriebssysteme zu laden, etwa die BSD-Varianten, DOS und OS/2.
 
-%description -l es
+%description -l es.UTF-8
 Lilo es responsable de cargar el kernel Linux de un disquete o del
-disco duro, dАndole el control del sistema. Puede tambiИn ser usado
+disco duro, dц║ndole el control del sistema. Puede tambiц╘n ser usado
 para "bootar" varios otros sistemas operativos, incluyendo variantes
 de BSD, DOS y OS/2.
 
-%description -l pl
-Lilo jest odpowiedzialny za Ёadowanie j╠dra systemu Linux z dysku
-twardego lub stacji dyskietek. Mo©e tak©e byФ u©ywany do startowania
-innych systemСw operacyjnych, takich jak rС©ne warianty BSD czy OS/2,
-jak rСwnie© DOS.
+%description -l pl.UTF-8
+Lilo jest odpowiedzialny za е┌adowanie jд┘dra systemu Linux z dysku
+twardego lub stacji dyskietek. Moе╪e takе╪e byд┤ uе╪ywany do startowania
+innych systemцЁw operacyjnych, takich jak rцЁе╪ne warianty BSD czy OS/2,
+jak rцЁwnieе╪ DOS.
 
-%description -l pt_BR
-Lilo И responsАvel pelo carregamento do kernel Linux de um disquete ou
-do disco rМgido, dando a ele o controle do sistema. Ele pode tambИm
-ser usado para "bootar" vАrios outros sistemas operacionais, incluindo
+%description -l pt_BR.UTF-8
+Lilo ц╘ responsц║vel pelo carregamento do kernel Linux de um disquete ou
+do disco rц╜gido, dando a ele o controle do sistema. Ele pode tambц╘m
+ser usado para "bootar" vц║rios outros sistemas operacionais, incluindo
 variantes de BSD, DOS e OS/2.
 
-%description -l ru
-Lilo отвечает за загрузку ядра Linux с дискеты или жесткого диска и
-передачу ему управления системой. Также может быть использовано для
-загрузки многих других систем, включая диалекты BSD, DOS и OS/2.
+%description -l ru.UTF-8
+Lilo п╬я┌п╡п╣я┤п╟п╣я┌ п╥п╟ п╥п╟пЁя─я┐п╥п╨я┐ я▐п╢я─п╟ Linux я│ п╢п╦я│п╨п╣я┌я▀ п╦п╩п╦ п╤п╣я│я┌п╨п╬пЁп╬ п╢п╦я│п╨п╟ п╦
+п©п╣я─п╣п╢п╟я┤я┐ п╣п╪я┐ я┐п©я─п╟п╡п╩п╣п╫п╦я▐ я│п╦я│я┌п╣п╪п╬п╧. п╒п╟п╨п╤п╣ п╪п╬п╤п╣я┌ п╠я▀я┌я▄ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╬ п╢п╩я▐
+п╥п╟пЁя─я┐п╥п╨п╦ п╪п╫п╬пЁп╦я┘ п╢я─я┐пЁп╦я┘ я│п╦я│я┌п╣п╪, п╡п╨п╩я▌я┤п╟я▐ п╢п╦п╟п╩п╣п╨я┌я▀ BSD, DOS п╦ OS/2.
 
-%description -l tr
-Lilo, Linux ГekirdeПinin disket veya sabit disk sЭrЭcЭden
-yЭklenmesinden sorumludur. AyrЩca pek Гok diПer iЧletim sisteminin de
-aГЩlЩЧta yЭklenmesi iГin kullanЩlЩr. Bu sistemler arasЩnda BSD
-tЭrevleri, DOS ve OS/2 sayЩlabilir.
+%description -l tr.UTF-8
+Lilo, Linux ц╖ekirdeд÷inin disket veya sabit disk sц╪rц╪cц╪den
+yц╪klenmesinden sorumludur. Ayrд╠ca pek ц╖ok diд÷er iе÷letim sisteminin de
+aц╖д╠lд╠е÷ta yц╪klenmesi iц╖in kullanд╠lд╠r. Bu sistemler arasд╠nda BSD
+tц╪revleri, DOS ve OS/2 sayд╠labilir.
 
-%description -l uk
-Lilo в╕дпов╕да╓ за завантаження ядра Linux з дискети чи жорсткого
-диску та передач╕ йому керування системою. Дозволя╓ також
-завантажувати ╕нш╕ операц╕йн╕ системи, включаючи д╕алекти BSD, DOS та
+%description -l uk.UTF-8
+Lilo п╡я√п╢п©п╬п╡я√п╢п╟я■ п╥п╟ п╥п╟п╡п╟п╫я┌п╟п╤п╣п╫п╫я▐ я▐п╢я─п╟ Linux п╥ п╢п╦я│п╨п╣я┌п╦ я┤п╦ п╤п╬я─я│я┌п╨п╬пЁп╬
+п╢п╦я│п╨я┐ я┌п╟ п©п╣я─п╣п╢п╟я┤я√ п╧п╬п╪я┐ п╨п╣я─я┐п╡п╟п╫п╫я▐ я│п╦я│я┌п╣п╪п╬я▌. п■п╬п╥п╡п╬п╩я▐я■ я┌п╟п╨п╬п╤
+п╥п╟п╡п╟п╫я┌п╟п╤я┐п╡п╟я┌п╦ я√п╫я┬я√ п╬п©п╣я─п╟я├я√п╧п╫я√ я│п╦я│я┌п╣п╪п╦, п╡п╨п╩я▌я┤п╟я▌я┤п╦ п╢я√п╟п╩п╣п╨я┌п╦ BSD, DOS я┌п╟
 OS/2.
 
 %prep
