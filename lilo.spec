@@ -1,15 +1,15 @@
 # TODO:
 # - pl-manual is really not-up-to-date
 Summary:	Boot loader for Linux and other operating systems
-Summary(de.UTF-8):   Boot-Lader für Linux und andere Betriebssysteme
-Summary(es.UTF-8):   Cargador de arranque para Linux y otros sistemas operativos
-Summary(fr.UTF-8):   Chargeur de boot pour Linux et autres systèmes d'exploitation
-Summary(pl.UTF-8):   Boot Loader dla Linuksa i innych systemów operacyjnych
-Summary(pt_BR.UTF-8):   Carregador de boot para Linux e outros sistemas operacionais
-Summary(ru.UTF-8):   Загрузчик для Linux и других операционных систем
-Summary(tr.UTF-8):   Linux ve diger işletim sistemleri için sistem yükleyici
-Summary(uk.UTF-8):   Завантажувач для Linux та інших операційних систем
-Summary(zh_CN.UTF-8):   Linux 和其它系统的引导模块。
+Summary(de.UTF-8):	Boot-Lader für Linux und andere Betriebssysteme
+Summary(es.UTF-8):	Cargador de arranque para Linux y otros sistemas operativos
+Summary(fr.UTF-8):	Chargeur de boot pour Linux et autres systèmes d'exploitation
+Summary(pl.UTF-8):	Boot Loader dla Linuksa i innych systemów operacyjnych
+Summary(pt_BR.UTF-8):	Carregador de boot para Linux e outros sistemas operacionais
+Summary(ru.UTF-8):	Загрузчик для Linux и других операционных систем
+Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
+Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
+Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	22.7.3
 Release:	1.1
