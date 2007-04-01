@@ -1,12 +1,14 @@
 --- lilo-22.7.3/Makefile.orig	2006-08-12 05:20:08.000000000 +0200
 +++ lilo-22.7.3/Makefile	2006-08-16 12:19:42.335971000 +0200
-@@ -76,8 +76,7 @@
+@@ -78,9 +78,7 @@
  #	elif [ -f /usr/bin/manpath ]; then \
  #  manpath | sed "s/:.*//"; else echo /usr/man; fi`
  #
 -MAN_DIR=`if [ -f /usr/bin/manpath ]; then \
--	manpath | sed "s/:.*//"; else echo /usr/man; fi`
+-	manpath | sed "s/:.*//"; else echo /usr/share/man; fi`
+-#MAN_DIR=/usr/share/man
 +MAN_DIR=/usr/share/man
  
  # set the compiler optimization level
  
+
