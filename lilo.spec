@@ -11,13 +11,13 @@ Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
 Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
-Version:	22.7.3
-Release:	1.1
+Version:	22.8
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
-# Source0-md5:	a3aacf90482e0c07492623042b901503
+# Source0-md5:	72765f2aafd20e23ecf07ebd22baeec7
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -27,6 +27,7 @@ Source5:	%{name}-pldblue.bmp
 Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
+# is this still needed?
 Patch2:		%{name}-ioctls.patch
 Patch3:		%{name}-cc.patch
 Patch4:		%{name}-doc-fallback.patch
@@ -93,7 +94,7 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+#%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
