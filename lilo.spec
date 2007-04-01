@@ -27,12 +27,10 @@ Source5:	%{name}-pldblue.bmp
 Source6:	%{name}-pldblue8.bmp
 Patch0:		%{name}-makefile.patch
 Patch1:		%{name}-nobash.patch
-# is this still needed?
-Patch2:		%{name}-ioctls.patch
-Patch3:		%{name}-cc.patch
-Patch4:		%{name}-doc-fallback.patch
-Patch5:		%{name}-pagesize.patch
-Patch6:		%{name}-dm.patch
+Patch2:		%{name}-cc.patch
+Patch3:		%{name}-doc-fallback.patch
+Patch4:		%{name}-pagesize.patch
+Patch5:		%{name}-dm.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -94,11 +92,10 @@ OS/2.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-#%patch2 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %build
 sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
