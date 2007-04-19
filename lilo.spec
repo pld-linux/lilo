@@ -12,7 +12,7 @@ Summary(uk.UTF-8):	Завантажувач для Linux та інших опе�
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	22.8
-Release:	1
+Release:	2
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -88,6 +88,19 @@ Lilo відповідає за завантаження ядра Linux з дис
 завантажувати інші операційні системи, включаючи діалекти BSD, DOS та
 OS/2.
 
+%package -n rc-boot-lilo
+Summary:        lilo support for rc-boot
+Summary(pl.UTF-8):      Wsparcie lilo dla rc-boot
+Group:          Base
+Requires:       rc-boot
+Requires:       %{name} = %{version}-%{release}
+
+%description -n rc-boot-lilo
+lilo support for rc-boot.
+
+%description -n rc-boot-lilo -l pl.UTF-8
+Wsparcie lilo dla rc-boot.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -135,7 +148,6 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %doc README* CHANGES INCOMPAT QuickInst
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.conf
 %attr(600,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) %{_sysconfdir}/disktab
-/etc/sysconfig/rc-boot/%{name}_functions.sh
 /boot/diag1.img
 /boot/lilo-pldblack.bmp
 /boot/lilo-pldblue.bmp
@@ -153,3 +165,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %lang(ko) %{_mandir}/ko/man[58]/*
 %lang(pl) %{_mandir}/pl/man[58]/*
 %lang(ru) %{_mandir}/ru/man[58]/*
+
+%files -n rc-boot-lilo
+%defattr(644,root,root,755)
+/etc/sysconfig/rc-boot/%{name}_functions.sh
