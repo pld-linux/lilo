@@ -89,11 +89,11 @@ Lilo відповідає за завантаження ядра Linux з дис
 OS/2.
 
 %package -n rc-boot-lilo
-Summary:        lilo support for rc-boot
-Summary(pl.UTF-8):      Wsparcie lilo dla rc-boot
-Group:          Base
-Requires:       rc-boot
-Requires:       %{name} = %{version}-%{release}
+Summary:	lilo support for rc-boot
+Summary(pl.UTF-8):	Wsparcie lilo dla rc-boot
+Group:		Base
+Requires:	rc-boot
+Requires:	%{name} = %{version}-%{release}
 
 %description -n rc-boot-lilo
 lilo support for rc-boot.
