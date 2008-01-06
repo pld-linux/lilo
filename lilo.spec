@@ -12,7 +12,7 @@ Summary(uk.UTF-8):	Завантажувач для Linux та інших опе�
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	22.8
-Release:	3
+Release:	4
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -92,8 +92,9 @@ OS/2.
 Summary:	lilo support for rc-boot
 Summary(pl.UTF-8):	Wsparcie lilo dla rc-boot
 Group:		Base
-Requires:	rc-boot
 Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	rc-boot
+Provides:	rc-boot-bootloader
 
 %description -n rc-boot-lilo
 lilo support for rc-boot.
