@@ -12,7 +12,7 @@ Summary(uk.UTF-8):	Завантажувач для Linux та інших опе�
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	22.8
-Release:	4
+Release:	5
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -31,6 +31,7 @@ Patch2:		%{name}-cc.patch
 Patch3:		%{name}-doc-fallback.patch
 Patch4:		%{name}-pagesize.patch
 Patch5:		%{name}-dm.patch
+Patch6:		%{name}-devmapper.patch
 URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -110,8 +111,10 @@ Wsparcie lilo dla rc-boot.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
+:> checkit
 sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
 %{__make} all \
 	CC="%{__cc}" \
