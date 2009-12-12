@@ -16,7 +16,7 @@ Release:	5
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	http://home.san.rr.com/johninsd/pub/linux/lilo/%{name}-%{version}.src.tar.gz
+Source0:	ftp://metalab.unc.edu/pub/Linux/system/boot/lilo/%{name}-%{version}.src.tar.gz
 # Source0-md5:	72765f2aafd20e23ecf07ebd22baeec7
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
@@ -32,7 +32,7 @@ Patch3:		%{name}-doc-fallback.patch
 Patch4:		%{name}-pagesize.patch
 Patch5:		%{name}-dm.patch
 Patch6:		%{name}-devmapper.patch
-URL:		http://home.san.rr.com/johninsd/pub/linux/lilo/
+URL:		http://freshmeat.net/projects/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 BuildRequires:	sed >= 4.0
