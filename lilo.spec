@@ -11,13 +11,13 @@ Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
 Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
-Version:	22.8
-Release:	6
+Version:	23.0
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	ftp://metalab.unc.edu/pub/Linux/system/boot/lilo/%{name}-%{version}.src.tar.gz
-# Source0-md5:	72765f2aafd20e23ecf07ebd22baeec7
+Source0:	https://alioth.debian.org/frs/download.php/3315/%{name}-%{version}.tar.gz
+# Source0-md5:	72f9b547393c0d0fb48b4b1c23f85f50
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -25,15 +25,12 @@ Source4:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 # Source4-md5:	5d93c6c01175d2e701ca77de16368a62
 Source5:	%{name}-pldblue.bmp
 Source6:	%{name}-pldblue8.bmp
-Patch0:		%{name}-makefile.patch
-Patch1:		%{name}-nobash.patch
-Patch2:		%{name}-cc.patch
-Patch3:		%{name}-doc-fallback.patch
-Patch4:		%{name}-pagesize.patch
-Patch5:		%{name}-dm.patch
-Patch6:		%{name}-devmapper.patch
-Patch7:		%{name}-degraded_arrary.patch
-URL:		http://freshmeat.net/projects/lilo/
+Patch0:		%{name}-nobash.patch
+Patch1:		%{name}-cc.patch
+Patch2:		%{name}-pagesize.patch
+Patch3:		%{name}-dm.patch
+Patch4:		%{name}-degraded_arrary.patch
+URL:		https://alioth.debian.org/projects/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 BuildRequires:	sed >= 4.0
@@ -42,6 +39,7 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
+%define		_usrsbindir	%{_prefix}/sbin
 
 %description
 Lilo is repsonsible for loading your linux kernel from either a floppy
@@ -111,9 +109,6 @@ Wsparcie lilo dla rc-boot.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %build
 :> checkit
@@ -128,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/sysconfig/rc-boot,%{_mandir}/man{5,8}}
 
 %{__make} install \
-	 ROOT=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf
 
@@ -151,7 +146,7 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 
 %files
 %defattr(644,root,root,755)
-%doc README* CHANGES INCOMPAT QuickInst
+%doc CHANGELOG* NEWS README TODO QuickInst readme
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.conf
 %attr(600,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) %{_sysconfdir}/disktab
 /boot/diag1.img
@@ -159,7 +154,8 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 /boot/lilo-pldblue.bmp
 /boot/lilo-pldblue8.bmp
 %attr(755,root,root) %{_sbindir}/lilo
-%attr(755,root,root) %{_sbindir}/mkrescue
+%attr(755,root,root) %{_usrsbindir}/keytab-lilo
+%attr(755,root,root) %{_usrsbindir}/mkrescue
 %{_mandir}/man[58]/*
 %lang(cs) %{_mandir}/cs/man[58]/*
 %lang(de) %{_mandir}/de/man[58]/*

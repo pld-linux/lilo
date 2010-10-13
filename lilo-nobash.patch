@@ -24,10 +24,3 @@
  if [ "$fast" = error ]; then
  	echo -n `$lilo -V`
  	echo " failure."
-@@ -683,4 +683,4 @@
- 
- echo "All done."
- echo ""
--exit 0
-\ No newline at end of file
-+exit 0

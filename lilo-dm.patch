@@ -1,6 +1,6 @@
-diff -urN lilo-22.7.3.org/device.c lilo-22.7.3/device.c
---- lilo-22.7.3.org/device.c	2006-07-06 03:33:46.000000000 +0200
-+++ lilo-22.7.3/device.c	2006-09-20 00:05:13.000000000 +0200
+diff -urN lilo-22.7.3.org/src/device.c lilo-22.7.3/src/device.c
+--- lilo-22.7.3.org/src/device.c	2006-07-06 03:33:46.000000000 +0200
++++ lilo-22.7.3/src/device.c	2006-09-20 00:05:13.000000000 +0200
 @@ -1028,7 +1028,7 @@
  		    geo_query_dev(&geo, dev,
  		              MAJOR(dev)!=MAJOR_LOOP

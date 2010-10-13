@@ -10,9 +10,9 @@
 # getting informations about the faulty or removed device is skipped.
 
 The attached patch really scans all devices to get all required information.
-diff -Nur lilo-22.8/raid.c lilo-22.8/raid.c
---- lilo-22.8/raid.c	2009-04-01 17:27:06.000000000 +0200
-+++ lilo-22.8/raid.c	2009-04-01 17:26:48.000000000 +0200
+diff -Nur lilo-22.8/src/raid.c lilo-22.8/src/raid.c
+--- lilo-22.8/src/raid.c	2009-04-01 17:27:06.000000000 +0200
++++ lilo-22.8/src/raid.c	2009-04-01 17:26:48.000000000 +0200
 @@ -223,7 +223,7 @@
  	    if (!force_raid) die("Not all RAID-1 disks are active; use '-H' to install to active disks only");
  	    else {
