@@ -30,7 +30,7 @@ Patch1:		%{name}-cc.patch
 Patch2:		%{name}-pagesize.patch
 Patch3:		%{name}-dm.patch
 Patch4:		%{name}-degraded_arrary.patch
-URL:		https://alioth.debian.org/projects/lilo/
+URL:		http://lilo.alioth.debian.org/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 BuildRequires:	sed >= 4.0
