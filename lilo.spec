@@ -11,13 +11,13 @@ Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
 Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
-Version:	23.0
+Version:	23.1
 Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	https://alioth.debian.org/frs/download.php/3315/%{name}-%{version}.tar.gz
-# Source0-md5:	72f9b547393c0d0fb48b4b1c23f85f50
+Source0:	http://lilo.alioth.debian.org/ftp/upstream/sources/%{name}-%{version}.tar.gz
+# Source0-md5:	36139c1b8f4dc835fc7775e59ee4b20c
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -29,7 +29,6 @@ Patch0:		%{name}-nobash.patch
 Patch1:		%{name}-cc.patch
 Patch2:		%{name}-pagesize.patch
 Patch3:		%{name}-dm.patch
-Patch4:		%{name}-degraded_arrary.patch
 URL:		http://lilo.alioth.debian.org/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -108,14 +107,13 @@ Wsparcie lilo dla rc-boot.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 :> checkit
 sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
 %{__make} all \
 	CC="%{__cc}" \
-	OPT="%{rpmcflags} -DLCF_DEVMAPPER" \
+	OPT="%{rpmcflags} %{rpmcppflags} -DLCF_DEVMAPPER" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
@@ -149,7 +147,6 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %doc CHANGELOG* NEWS README TODO QuickInst readme
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.conf
 %attr(600,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) %{_sysconfdir}/disktab
-/boot/diag1.img
 /boot/lilo-pldblack.bmp
 /boot/lilo-pldblue.bmp
 /boot/lilo-pldblue8.bmp
