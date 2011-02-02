@@ -33,6 +33,8 @@ URL:		http://lilo.alioth.debian.org/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 BuildRequires:	sed >= 4.0
+# uudecode command
+BuildRequires:	sharutils
 Provides:	bootloader
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
