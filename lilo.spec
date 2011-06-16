@@ -11,13 +11,13 @@ Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
 Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
-Version:	23.1
+Version:	23.2
 Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	http://lilo.alioth.debian.org/ftp/upstream/sources/%{name}-%{version}.tar.gz
-# Source0-md5:	36139c1b8f4dc835fc7775e59ee4b20c
+Source0:	http://lilo.alioth.debian.org/ftp/sources/%{name}-%{version}.tar.gz
+# Source0-md5:	51b9b9db665d3b8724919e3d46054d12
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
