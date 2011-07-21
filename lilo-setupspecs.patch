@@ -1,0 +1,40 @@
+commit 5600dbd0049699c3847bfa15eb0bfc745f76d407
+Author: Joachim Wiedorn <ad_debian@joonet.de>
+Date:   Sat Apr 9 12:18:56 2011 +0200
+
+    Enlarge maximum number of SETUPSECS to 63
+
+diff --git a/src/bootsect.S b/src/bootsect.S
+index 77e5b45..4b38aaa 100644
+--- a/src/bootsect.S
++++ b/src/bootsect.S
+@@ -36,7 +38,7 @@ BOOTSEG   = 0x07C0			! original address of boot-sector
+ INITSEG   = 0x9000			! we move boot here - out of the way
+ SETUPSEG  = INITSEG+0x20		! setup starts here
+ SYSSEG    = 0x1000			! system loaded at 0x10000 (65536).
+-MAX_SETUPSECS = 31			! same as  lilo.h
++MAX_SETUPSECS = 63			! same as  lilo.h   (for kernel >= 2.4.0)
+ STK_SIZE  = MAX_SETUPSECS*512+512	! 0x4000
+ 
+ #ifndef SIZEKRNL
+diff --git a/src/lilo.h b/src/lilo.h
+index 1f1ef7d..86d87ca 100644
+--- a/src/lilo.h
++++ b/src/lilo.h
+@@ -253,12 +252,11 @@ source directory.
+ #define STAGE_FLAG_MENU	0x0200	/* boot loader supports menu interface */
+ #define STAGE_FLAG_BMP4	0x0400	/* boot loader supports 640x480x4 bitmaps */
+ 
+-#define SETUPSECS	4	/* nr of setup sectors */
+-#define VSS_NUM		497	/* address where variable setup size is
+-				   stored */
++#define VSS_NUM		497	/* address where variable setup size is stored */
+ #define VGA_SET		506	/* address of initial kernel VGA mode */
+-#define MAX_SETUPSECS	31	/* maximum number of sectors in kernel
+-				   setup code (+ bootsect) */
++#define SETUPSECS	4	/* default number of setup sectors */
++#define MAX_SETUPSECS	63	/* maximum number of sectors in kernel
++				   setup code (+ bootsect)  (for kernel >= 2.4.0) */
+ #define MAX_KERNEL_SECS	1024	/* absolute maximum kernel size */
+ #define SPECIAL_SECTORS	2	/* special sectors (don't compact) at beginning
+ 				   of map sections */
