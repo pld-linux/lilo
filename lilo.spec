@@ -12,7 +12,7 @@ Summary(uk.UTF-8):	Завантажувач для Linux та інших опе�
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	22.8
-Release:	1
+Release:	8
 Epoch:		3
 License:	BSD
 Group:		Applications/System
