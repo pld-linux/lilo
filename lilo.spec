@@ -1,4 +1,5 @@
 # TODO:
+# - package things from %files
 # - pl-manual is really not-up-to-date
 Summary:	Boot loader for Linux and other operating systems
 Summary(de.UTF-8):	Boot-Lader für Linux und andere Betriebssysteme
@@ -11,13 +12,13 @@ Summary(tr.UTF-8):	Linux ve diger işletim sistemleri için sistem yükleyici
 Summary(uk.UTF-8):	Завантажувач для Linux та інших операційних систем
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
-Version:	23.2
-Release:	1
+Version:	24.0
+Release:	0.1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
 Source0:	http://lilo.alioth.debian.org/ftp/sources/%{name}-%{version}.tar.gz
-# Source0-md5:	51b9b9db665d3b8724919e3d46054d12
+# Source0-md5:	03d7090835a5675314082847f1ac7910
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
 Source3:	%{name}_functions.sh
@@ -29,6 +30,7 @@ Patch0:		%{name}-nobash.patch
 Patch1:		%{name}-cc.patch
 Patch2:		%{name}-pagesize.patch
 Patch3:		%{name}-dm.patch
+Patch4:		%{name}-build.patch
 URL:		http://lilo.alioth.debian.org/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
@@ -109,6 +111,7 @@ Wsparcie lilo dla rc-boot.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 :> checkit

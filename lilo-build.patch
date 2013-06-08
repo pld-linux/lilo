@@ -1,0 +1,11 @@
+--- lilo-24.0/src/Makefile~	2013-06-07 15:23:05.000000000 +0200
++++ lilo-24.0/src/Makefile	2013-06-09 00:44:10.454964586 +0200
+@@ -245,7 +245,7 @@
+ 
+ 	strip lilo
+ 	cp lilo $$DESTDIR$(SBIN_DIR)/lilo
+-	[ -x lilo.static ] && strip lilo.static
++	[ -x lilo.static ] && strip lilo.static || true
+ 	cp ../mkrescue $$DESTDIR$(USRSBIN_DIR)/mkrescue
+ 	cp ../keytab-lilo.pl $$DESTDIR$(USRSBIN_DIR)/keytab-lilo
+ 
