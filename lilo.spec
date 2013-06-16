@@ -1,5 +1,4 @@
 # TODO:
-# - package things from %files
 # - pl-manual is really not-up-to-date
 Summary:	Boot loader for Linux and other operating systems
 Summary(de.UTF-8):	Boot-Lader für Linux und andere Betriebssysteme
