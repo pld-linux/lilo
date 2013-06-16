@@ -140,6 +140,15 @@ install %{SOURCE6} $RPM_BUILD_ROOT/boot
 touch $RPM_BUILD_ROOT%{_sysconfdir}/disktab
 
 bzip2 -dc %{SOURCE4} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/README.lilo-non-english-man-pages
+
+# see just lilo.conf
+%{__rm} $RPM_BUILD_ROOT%{_sysconfdir}/lilo.conf_example
+
+# should we package this?
+%{__rm} $RPM_BUILD_ROOT/etc/initramfs/post-update.d/runlilo
+# handled by rc-boot(?)
+%{__rm} $RPM_BUILD_ROOT/etc/kernel/{postinst.d,postrm.d}/zz-runlilo
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -152,13 +161,30 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 %doc CHANGELOG* NEWS README TODO QuickInst readme
 %attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.conf
 %attr(600,root,root) %config(noreplace,missingok) %verify(not md5 mtime size) %{_sysconfdir}/disktab
+# PLD themes
 /boot/lilo-pldblack.bmp
 /boot/lilo-pldblue.bmp
 /boot/lilo-pldblue8.bmp
+# other themes
+/boot/coffee.bmp
+/boot/debian.bmp
+%lang(de) /boot/debian-de.bmp
+/boot/debianlilo.bmp
+/boot/inside.bmp
+/boot/onlyblue.bmp
+/boot/tuxlogo.bmp
 %attr(755,root,root) %{_sbindir}/lilo
+# first three are written in perl - separate to lilo-perl or so?
 %attr(755,root,root) %{_usrsbindir}/keytab-lilo
+%attr(755,root,root) %{_usrsbindir}/lilo-uuid-diskid
+%attr(755,root,root) %{_usrsbindir}/liloconfig
 %attr(755,root,root) %{_usrsbindir}/mkrescue
-%{_mandir}/man[58]/*
+%{_mandir}/man5/lilo.conf.5*
+%{_mandir}/man8/keytab-lilo.8*
+%{_mandir}/man8/lilo.8*
+%{_mandir}/man8/lilo-uuid-diskid.8*
+%{_mandir}/man8/liloconfig.8*
+%{_mandir}/man8/mkrescue.8*
 %lang(cs) %{_mandir}/cs/man[58]/*
 %lang(de) %{_mandir}/de/man[58]/*
 %lang(es) %{_mandir}/es/man[58]/*
