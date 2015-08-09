@@ -12,7 +12,7 @@ Summary(uk.UTF-8):	Завантажувач для Linux та інших опе�
 Summary(zh_CN.UTF-8):	Linux 和其它系统的引导模块。
 Name:		lilo
 Version:	24.1
-Release:	0.1
+Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
@@ -166,12 +166,19 @@ echo "Remember to type \"lilo\" after upgrade. Or rc-boot if you are using it."
 /boot/lilo-pldblue8.bmp
 # other themes
 /boot/coffee.bmp
+/boot/coffee.dat
 /boot/debian.bmp
+/boot/debian.dat
 %lang(de) /boot/debian-de.bmp
+%lang(de) /boot/debian-de.dat
 /boot/debianlilo.bmp
+/boot/debianlilo.dat
 /boot/inside.bmp
+/boot/inside.dat
 /boot/onlyblue.bmp
+/boot/onlyblue.dat
 /boot/tuxlogo.bmp
+/boot/tuxlogo.dat
 %attr(755,root,root) %{_sbindir}/lilo
 # first three are written in perl - separate to lilo-perl or so?
 %attr(755,root,root) %{_usrsbindir}/keytab-lilo
