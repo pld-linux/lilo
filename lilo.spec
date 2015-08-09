@@ -37,7 +37,7 @@ BuildRequires:	sed >= 4.0
 # uudecode command
 BuildRequires:	sharutils
 Provides:	bootloader
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{ix86} %{x8664} x32
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
