@@ -16,7 +16,7 @@ Release:	1
 Epoch:		2
 License:	BSD
 Group:		Applications/System
-Source0:	http://lilo.alioth.debian.org/ftp/sources/%{name}-%{version}.tar.gz
+Source0:	https://www.joonet.de/lilo/ftp/sources/%{name}-%{version}.tar.gz
 # Source0-md5:	fe5e8c9754cee342b958b5fcbbb6eb51
 Source1:	%{name}-pldblack.bmp
 Source2:	%{name}.conf
@@ -30,7 +30,7 @@ Patch1:		%{name}-cc.patch
 Patch2:		%{name}-pagesize.patch
 Patch3:		%{name}-dm.patch
 Patch4:		%{name}-build.patch
-URL:		http://lilo.alioth.debian.org/
+URL:		https://www.joonet.de/lilo/
 BuildRequires:	bin86 >= 0.15
 BuildRequires:	device-mapper-devel >= 1.01.01
 BuildRequires:	sed >= 4.0
