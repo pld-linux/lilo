@@ -1,11 +1,12 @@
---- lilo-21.4.4/src/lilo.h.pagesize	2003-08-20 18:55:00.000000000 -0400
-+++ lilo-21.4.4/src/lilo.h	2003-08-20 18:55:22.000000000 -0400
-@@ -142,6 +142,8 @@
- #define PRTMAP_SIZE	32	/* number of partition type mappings */
- #define DRVMAP_SIZE	8	/* number of drive mappings */
+diff -urNp -x '*.orig' lilo-24.2.org/src/lilo.h lilo-24.2/src/lilo.h
+--- lilo-24.2.org/src/lilo.h	2015-11-22 00:50:20.000000000 +0100
++++ lilo-24.2/src/lilo.h	2026-03-03 00:22:13.525819676 +0100
+@@ -470,6 +470,8 @@
+ 
+ 
  
 +#define PAGE_SIZE sysconf(_SC_PAGESIZE)
 +
  #ifdef LILO_ASM
- 
  BOOTSEG   = 0x07C0			! original address of boot-sector
+ PARTS_LOAD= 0x0600			! partition sector load address

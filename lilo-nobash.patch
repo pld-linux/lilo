@@ -1,12 +1,13 @@
---- lilo-22.6.1/mkrescue	2004-11-16 08:50:08.000000000 +0000
-+++ lilo-22.6.1.new/mkrescue	2005-01-04 22:41:53.456867448 +0000
+diff -urNp -x '*.orig' lilo-24.2.org/mkrescue lilo-24.2/mkrescue
+--- lilo-24.2.org/mkrescue	2011-06-21 01:22:16.000000000 +0200
++++ lilo-24.2/mkrescue	2026-03-03 00:21:42.477374881 +0100
 @@ -1,4 +1,4 @@
 -#!/bin/bash
 +#!/bin/sh
  #
- # mkrescue
+ #       mkrescue - create a boot floppy or cd image with the current kernel
  #
-@@ -612,7 +612,7 @@
+@@ -624,7 +624,7 @@ echo ""
  
  
  
@@ -15,7 +16,7 @@
  if [ "$fast" = fast ]; then
  	bootcmd="-b /dev/$loopback"
  fi
-@@ -629,7 +629,7 @@
+@@ -644,7 +644,7 @@ fi
  else
  	$lilo -C $mountconfig $compact $bootcmd || fast=error
  fi

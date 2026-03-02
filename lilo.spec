@@ -117,7 +117,7 @@ Wsparcie lilo dla rc-boot.
 sed -i -e 's#/bin/bcc#/nonexistant/file#g' Makefile*
 %{__make} all \
 	CC="%{__cc}" \
-	OPT="%{rpmcflags} %{rpmcppflags} -DLCF_DEVMAPPER" \
+	OPT="%{rpmcflags} %{rpmcppflags} -DLCF_DEVMAPPER -std=gnu17" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
