@@ -1,7 +1,7 @@
 --- lilo-24.1/src/Makefile~	2014-10-16 23:53:29.000000000 +0200
 +++ lilo-24.1/src/Makefile	2014-10-17 13:18:06.558257859 +0200
-@@ -245,7 +245,6 @@
- 	strip lilo
+@@ -245,7 +245,5 @@
+-	strip lilo
  	cp lilo $$DESTDIR$(SBIN_DIR)/lilo
  	if [ -f lilo.static ]; then \
 -	  strip lilo.static; \
