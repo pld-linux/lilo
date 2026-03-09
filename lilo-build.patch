@@ -8,3 +8,47 @@
  	  cp lilo.static $$DESTDIR$(SBIN_DIR)/lilo.static; \
  	fi
  	cp ../mkrescue $$DESTDIR$(USRSBIN_DIR)/mkrescue
+--- a/src/raid.h
++++ b/src/raid.h
+@@ -8,7 +8,7 @@
+  * in the source directory.
+  */
+
+-int do_md_install, ndisk, md_bios;
++extern int do_md_install, ndisk, md_bios;
+
+ int raid_setup(void);
+ void raid_final(void);
+--- a/src/identify.c
++++ b/src/identify.c
+@@ -19,7 +19,7 @@
+ #include "common.h"
+ #include "cfg.h"
+
+-char *identify;
++extern char *identify;
+ static char *opt;
+ static char *first, *dflt;
+ static int idefault;
+--- a/src/bsect.c
++++ b/src/bsect.c
+@@ -54,7 +54,7 @@
+ #endif
+
+
+-int boot_dev_nr;
++extern int boot_dev_nr;
+
+ static BOOT_SECTOR bsect,bsect_orig;
+ static MENUTABLE menuparams;
+--- a/src/common.c
++++ b/src/common.c
+@@ -22,7 +22,7 @@
+ #ifndef SHS_MAIN
+ LILO_EXTRA extra;
+ char *identify = NULL;
+-int boot_dev_nr, raid_index, do_md_install;
++int boot_dev_nr, raid_index;
+ int verbose = 0, test = 0, compact = 0, linear = 0, raid_flags = 0, zflag = 0,
+       ireloc = 0, force_fs = 0, force_raid = 0, extended_pt = 0, query = 0,
+       nowarn = 0, lba32 = 0, autoauto = 0, passw = 0, geometric = 0, eflag = 0;
